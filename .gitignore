@@ -50,3 +50,11 @@ Thumbs.db
 /data/intermediate/*
 /data/processed/*
 !/data/**/.gitkeep
+
+# humanize-korean 윤문 스킬 임시 작업물
+/_workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/

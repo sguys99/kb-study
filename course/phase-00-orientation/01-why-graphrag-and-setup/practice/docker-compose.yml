@@ -1,0 +1,33 @@
+# Neo4j 5.26 LTS 단일 노드. 이 과정 전체의 그래프 저장소다.
+# 전제: Docker / Docker Compose 설치됨.
+# 기동: docker compose up -d
+# 비밀번호는 .env 의 NEO4J_PASSWORD 와 맞춘다(여기 기본값과 동일하게 둘 것).
+# 브라우저 확인: http://localhost:7474  (bolt 포트는 7687)
+
+services:
+  neo4j:
+    image: neo4j:5.26
+    container_name: kb-neo4j
+    ports:
+      - "7474:7474"   # HTTP (브라우저 콘솔)
+      - "7687:7687"   # Bolt (드라이버 접속)
+    environment:
+      # 형식: NEO4J_AUTH=user/password — .env 의 NEO4J_USER / NEO4J_PASSWORD 와 일치해야 한다.
+      - NEO4J_AUTH=neo4j/please-change-me
+      # APOC 플러그인(선택). 이후 Phase 에서 쓰므로 미리 켜 둔다.
+      - NEO4J_PLUGINS=["apoc"]
+      # 메모리는 학습용 기본값으로 작게 둔다.
+      - NEO4J_server_memory_heap_max__size=1G
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      # 컨테이너가 bolt 응답을 줄 때까지 healthy 로 표시되지 않는다.
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  neo4j_data:
+  neo4j_logs:

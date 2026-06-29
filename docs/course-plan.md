@@ -42,10 +42,10 @@
 > RAG가 무너지는 4가지 실패를 직접 재현하고 전체 스택 헬스체크. 상세: [study-roadmap.md](study-roadmap.md#phase-0-오리엔테이션--환경-세팅-35일)
 
 - [ ] **01-why-graphrag-and-setup** — RAG 한계 4종 데모 + GraphRAG 도입 의사결정 매트릭스 + 환경 세팅 + 헬스체크
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 
 ---

@@ -1,0 +1,14 @@
+# Phase 0 · 토픽 01 의존성
+# 설치: pip install -r requirements.txt
+# 버전 핀은 두지 않는다(과정 진행 중 최신 호환을 따른다).
+
+anthropic          # Claude API 클라이언트 (ANTHROPIC_API_KEY)
+voyageai           # VoyageAI 임베딩 (VOYAGE_API_KEY)
+neo4j              # Neo4j Python 드라이버 (verify_connectivity)
+lightrag-hku       # LightRAG core (import: from lightrag import LightRAG)
+numpy              # 코사인 유사도 계산
+python-dotenv      # .env 로드
+
+# 비용 대안(선택): 로컬 임베딩을 쓰려면 아래를 추가 설치한다.
+# sentence-transformers   # bge-m3 로컬 임베딩
+# ollama                  # 로컬 LLM (별도 ollama 서버 필요)
