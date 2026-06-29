@@ -1,0 +1,5 @@
+# Phase 1 · 토픽 01 의존성
+# 설치: pip install -r requirements.txt
+# 이 토픽은 네트워크·API 키·Neo4j 가 필요 없다. 로컬 파일 + 메타 + 해시만 다룬다.
+
+pydantic          # SourceRecord 데이터 모델 검증 (v2)

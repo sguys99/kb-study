@@ -55,10 +55,10 @@
 > 신뢰 가능한 Source Layer + 이후 모든 비교의 기준선이 될 Baseline Hybrid RAG.
 
 - [ ] **01-llm-wiki-source-layer** — LLM Wiki / Source Layer 개념, 신뢰 가능한 원본 폴더 설계
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-markdown-yaml-wikilink** — 원문 → Markdown · YAML metadata · WikiLink · tag 구조화
   - [ ] lesson.md 초안 (kb-agent)
