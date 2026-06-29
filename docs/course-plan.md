@@ -61,10 +61,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-markdown-yaml-wikilink** — 원문 → Markdown · YAML metadata · WikiLink · tag 구조화
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **03-pdf-table-formula-parsing** — Docling · MinerU · RAG-Anything 파싱 결과 비교(표·수식·한국어)
   - [ ] lesson.md 초안 (kb-agent)
