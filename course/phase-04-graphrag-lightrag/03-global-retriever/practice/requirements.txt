@@ -1,0 +1,13 @@
+# 4.3 의존성 — 그래프 적재·커뮤니티 탐지는 neo4j 드라이버 하나로 키 없이 돈다.
+#
+# 커뮤니티 요약(community_summarize.py)과 map-reduce 질의(global_retriever.py)는
+# LLM 을 쓴다. 기본 백엔드는 Claude(anthropic) 이고 ANTHROPIC_API_KEY 가 필요하다.
+# 키가 없으면 두 스크립트는 자동으로 Ollama 로컬 백엔드로 떨어진다(아래 주석 참고).
+#   - Ollama 백엔드는 추가 파이썬 패키지가 필요 없다. 표준 라이브러리 urllib 로
+#     http://localhost:11434 에 POST 한다. ollama 가 떠 있고 모델만 받아 두면 된다.
+neo4j>=5.26,<6
+
+# (선택) Claude 백엔드를 쓰려면 설치한다. ANTHROPIC_API_KEY 환경변수 필요.
+#   비용 0 로컬 대안: Ollama — `ollama pull qwen2.5:7b` 후 ollama serve 만 띄우면
+#   anthropic 패키지 없이도 community_summarize / global_retriever 가 돈다.
+anthropic>=0.40
