@@ -1,0 +1,7 @@
+# 06-why-lightrag practice 의존
+#
+# query_modes.py 와 mode_selector.py 는 표준 라이브러리만 쓴다(설치 불필요, 과금 0).
+# 아래는 lightrag_quickstart.py(07에서 실제 실행)를 위한 참고용 — 06에서는 설치 안 해도 된다.
+#
+# lightrag-hku        # LightRAG Core (HKUDS). 07에서 설치.
+# openai              # 데모 백엔드. 본 과정 기본은 anthropic + voyageai 또는 Ollama+bge-m3.
