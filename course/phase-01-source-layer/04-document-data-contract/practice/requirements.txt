@@ -1,0 +1,4 @@
+# 04 문서 Data Contract — 순수 로컬. 네트워크·API 키·Neo4j 불필요.
+# hashlib 은 표준 라이브러리라 명시하지 않는다.
+# 02 의 sources/*.md 본문만 읽으므로 YAML 파싱(pyyaml)도 여기선 불필요하다.
+pydantic>=2
