@@ -1,0 +1,10 @@
+# 05 Query Tuning + Read-only Guard 의존성. Python 3.11+ 권장.
+#
+# 설치:
+#   pip install -r requirements.txt
+#
+# 05 는 임베딩이 필요 없다. PROFILE/EXPLAIN 과 가드는 모두 Cypher·드라이버만으로 돈다.
+# 벡터 인덱스를 PROFILE 로 들여다보는 데모도 04 가 만들어 둔 인덱스를 읽기만 하므로
+# voyageai 는 필요 없다(질의 벡터가 필요한 부분은 더미 벡터로 대체).
+
+neo4j>=5.26,<6            # Neo4j Python Driver — 03/04 와 동일
