@@ -1,0 +1,3 @@
+# 05 wiki-parser-chunking — 실행 의존(순수 로컬, 네트워크·API 키 불필요).
+pydantic>=2
+pyyaml
