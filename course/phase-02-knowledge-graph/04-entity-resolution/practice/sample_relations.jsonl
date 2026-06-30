@@ -1,0 +1,4 @@
+{"head":"LightRAG","type":"USES","tail":"Neo4j","provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":1200,"end":1342,"quote":"LightRAG is a graph-based RAG framework from HKUDS. It supports naive, local, global, hybrid, mix retrieval modes and stores entities in Neo4j"}}
+{"head":"Self-RAG","type":"IMPROVES","tail":"RAG","provenance":{"source_id":"src-02-self-rag","version":"v1@77aa00bb","start":640,"end":661,"quote":"Self-RAG improves RAG"}}
+{"head":"LightRAG","type":"COMPARES_TO","tail":"GraphRAG","provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2138,"end":2167,"quote":"LightRAG compares to GraphRAG"}}
+{"head":"Light RAG","type":"USES","tail":"Neo4J","provenance":{"source_id":"src-06-survey","version":"v1@5c5c5c5c","start":410,"end":1507,"quote":"Light RAG stores its graph in Neo4J"}}

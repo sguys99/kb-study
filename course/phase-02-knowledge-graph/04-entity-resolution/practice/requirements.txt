@@ -1,0 +1,12 @@
+# 기본 경로(4단계 ER, mock 임베딩)는 아래 둘만 있으면 키 없이 돈다.
+pydantic>=2
+rapidfuzz>=3
+
+# ── 선택 의존 (embedding 단계 백엔드를 갈아끼울 때만) ──────────────────────────
+# voyage 백엔드: VOYAGE_API_KEY 필요
+#   voyageai>=0.3
+# local 백엔드(비용 0): BAAI/bge-m3 로컬 임베딩
+#   sentence-transformers>=3
+#
+# mock 임베딩은 '의미'를 모른다(같은 표면형=같은 벡터). 의미 병합의 실제 효과는
+# voyage/local 백엔드에서 확인한다. 파이프라인 구조는 세 백엔드가 동일하다.

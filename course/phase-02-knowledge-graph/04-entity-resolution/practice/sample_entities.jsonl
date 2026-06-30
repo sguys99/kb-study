@@ -1,0 +1,19 @@
+{"name":"LightRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":1200,"end":1208,"quote":"LightRAG"}}
+{"name":"RAG","type":"Model","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":1226,"end":1229,"quote":"RAG"}}
+{"name":"HKUDS","type":"Organization","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":1245,"end":1250,"quote":"HKUDS"}}
+{"name":"Neo4j","type":"Tool","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":1337,"end":1342,"quote":"Neo4j"}}
+{"name":"Self-RAG","type":"Model","aliases":[],"provenance":{"source_id":"src-02-self-rag","version":"v1@77aa00bb","start":640,"end":648,"quote":"Self-RAG"}}
+{"name":"RAG","type":"Model","aliases":[],"provenance":{"source_id":"src-02-self-rag","version":"v1@77aa00bb","start":658,"end":661,"quote":"RAG"}}
+{"name":"CRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-02-self-rag","version":"v1@77aa00bb","start":720,"end":724,"quote":"CRAG"}}
+{"name":"retrieval quality","type":"Concept","aliases":[],"provenance":{"source_id":"src-02-self-rag","version":"v1@77aa00bb","start":767,"end":784,"quote":"retrieval quality"}}
+{"name":"GraphRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2048,"end":2056,"quote":"GraphRAG"}}
+{"name":"Microsoft","type":"Organization","aliases":[],"provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2073,"end":2082,"quote":"Microsoft"}}
+{"name":"LightRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2138,"end":2146,"quote":"LightRAG"}}
+{"name":"GraphRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2159,"end":2167,"quote":"GraphRAG"}}
+{"name":"multi-hop","type":"Concept","aliases":[],"provenance":{"source_id":"src-04-graphrag","version":"v1@deadbeef","start":2195,"end":2204,"quote":"multi-hop"}}
+{"name":"LightRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":3000,"end":3008,"quote":"LightRAG"}}
+{"name":"GraphRAG","type":"Model","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":3047,"end":3055,"quote":"GraphRAG"}}
+{"name":"RAG","type":"Model","aliases":[],"provenance":{"source_id":"src-05-lightrag","version":"v1@ab12cd34","start":3057,"end":3060,"quote":"RAG"}}
+{"name":"Light RAG","type":"Model","aliases":["LightRAG"],"provenance":{"source_id":"src-06-survey","version":"v1@5c5c5c5c","start":410,"end":419,"quote":"Light RAG"}}
+{"name":"LightRag","type":"Model","aliases":[],"provenance":{"source_id":"src-06-survey","version":"v1@5c5c5c5c","start":880,"end":888,"quote":"LightRag"}}
+{"name":"Neo4J","type":"Tool","aliases":[],"provenance":{"source_id":"src-06-survey","version":"v1@5c5c5c5c","start":1502,"end":1507,"quote":"Neo4J"}}

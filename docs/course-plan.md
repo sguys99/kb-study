@@ -116,10 +116,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **04-entity-resolution** — alias · coreference · fuzzy · embedding 병합
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **05-relation-normalization-events** — Relation 정규화 & Event 모델링 — 방향·동의어·n-ary
   - [ ] lesson.md 초안 (kb-agent)
