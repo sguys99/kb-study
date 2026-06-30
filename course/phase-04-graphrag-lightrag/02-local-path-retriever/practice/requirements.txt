@@ -1,0 +1,13 @@
+# 4.2 의존성 — 기본은 순수 neo4j 드라이버 하나면 키 없이 전부 돈다.
+#
+# 엔티티 링킹은 full-text 인덱스 + alias 매칭(키 불필요)으로 완결한다.
+# 임베딩 기반 링킹은 "더 견고하게 하려면" 선택 분기다 — entity_linking.py 가
+# voyageai 가 깔려 있고 VOYAGE_API_KEY 가 있을 때만 그 경로를 쓰고, 없으면 자동으로
+# full-text/alias 매칭으로 떨어진다. 그래서 voyageai 는 선택 설치다(아래 주석 해제).
+neo4j>=5.26,<6
+
+# (선택) 임베딩 기반 엔티티 링킹 분기를 켜려면 주석을 해제한다.
+#   - 상용: voyageai (VOYAGE_API_KEY 필요, voyage-3.5)
+#   - 비용 0 로컬 대안: sentence-transformers + BAAI/bge-m3 (키 불필요)
+# voyageai>=0.3
+# sentence-transformers>=3.0
