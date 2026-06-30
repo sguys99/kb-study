@@ -184,10 +184,10 @@
 > 이 과정의 심장 — Local/Global/Path/Community 검색 패턴 + LightRAG 5모드 A/B. Phase 1 기준선을 넘어섭니다.
 
 - [ ] **01-graphrag-method-map** — Local · Global · Path · Community · Memory 개념 지도
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-local-path-retriever** — Entity Linking → Neighborhood → Multi-hop Path
   - [ ] lesson.md 초안 (kb-agent)

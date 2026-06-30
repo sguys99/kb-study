@@ -187,4 +187,4 @@ def duplicate_candidates(session) -> None:
 
 ## 다음 토픽
 
-→ [GraphRAG Method Map (Local · Global · Path · Community · Memory)](../../phase-04-graphrag-retrieval/01-graphrag-method-map/lesson.md)
+→ [GraphRAG Method Map (Local · Global · Path · Community · Memory)](../../phase-04-graphrag-lightrag/01-graphrag-method-map/lesson.md)
