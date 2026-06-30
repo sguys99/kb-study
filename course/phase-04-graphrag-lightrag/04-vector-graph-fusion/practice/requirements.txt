@@ -1,0 +1,21 @@
+# 4.4 의존성 — 핵심 파이프라인(fuse → 토큰 예산 → 패킹)은 표준 라이브러리만으로 돈다.
+#
+# candidates.py / fuse.py / token_budget.py / fusion_pipeline.py 는 외부 패키지 없이
+# 동봉된 sample_candidates.json 만으로 끝까지 동작한다(키 불필요, 과금 0).
+# rerank.py 만 reranker 백엔드를 쓰는데, 그것도 키 없으면 자동으로 점수 보존 폴백으로 떨어진다.
+#
+# 기본 설치는 비워 둬도 된다. 아래는 "더 정확하게" 하고 싶을 때 켜는 선택 분기다.
+
+# (선택 1) 토큰 카운트를 char/4 근사 대신 tiktoken(cl100k_base)으로 정확히 세려면 설치.
+#   없으면 token_budget.py 가 자동으로 char/4 근사로 떨어진다.
+# tiktoken>=0.7
+
+# (선택 2) 재순위화 백엔드.
+#   - 상용: voyageai (VOYAGE_API_KEY 필요, rerank-2.5)
+#   - 비용 0 로컬 대안: sentence-transformers + BAAI/bge-reranker-v2-m3 (키 불필요)
+#   둘 다 없으면 rerank.py 는 융합 점수를 그대로 쓰는 'identity' 폴백으로 떨어진다.
+# voyageai>=0.3
+# sentence-transformers>=3.0
+
+# (선택 3) .env 파일에서 키를 읽으려면 설치. 없으면 os.environ 만 쓴다.
+# python-dotenv>=1.0

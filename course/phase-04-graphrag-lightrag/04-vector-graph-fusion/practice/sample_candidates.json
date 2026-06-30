@@ -1,0 +1,67 @@
+{
+  "question": "Neo4j 와 RAG 는 어떻게 연결되며, LightRAG 는 그 사이에서 무슨 역할을 하나?",
+  "vector": [
+    {
+      "id": "v1",
+      "text": "LightRAG 는 그래프 기반 RAG 프레임워크로, 검색 단계에서 벡터 인덱스와 그래프 인덱스를 함께 쓴다. naive/local/global/hybrid/mix 다섯 모드를 제공한다.",
+      "score": 0.83,
+      "metadata": {"doc": "lightrag_readme", "chunk": 12, "span": "L120-138"}
+    },
+    {
+      "id": "v2",
+      "text": "RAG(Retrieval-Augmented Generation)는 외부 문서를 임베딩해 벡터 검색으로 top-k 청크를 가져온 뒤 LLM 에 근거로 넣는 방식이다.",
+      "score": 0.81,
+      "metadata": {"doc": "rag_survey", "chunk": 3, "span": "L40-55"}
+    },
+    {
+      "id": "v3",
+      "text": "RAG 는 의미적으로 가까운 청크를 잘 찾지만, 두 개념이 서로 다른 청크에 흩어져 있으면 둘 사이의 관계(멀티홉)는 못 잇는다.",
+      "score": 0.77,
+      "metadata": {"doc": "rag_survey", "chunk": 7, "span": "L88-101"}
+    },
+    {
+      "id": "v4",
+      "text": "VoyageAI 의 voyage-3.5 임베딩과 rerank-2.5 재순위 모델은 검색 품질을 끌어올리는 데 자주 쓰인다.",
+      "score": 0.62,
+      "metadata": {"doc": "voyageai_docs", "chunk": 1, "span": "L10-22"}
+    },
+    {
+      "id": "v5",
+      "text": "벡터 검색은 코사인 유사도로 의미 근접 청크를 뽑는다. 표면 표현이 질문과 비슷할수록 점수가 높다.",
+      "score": 0.59,
+      "metadata": {"doc": "rag_survey", "chunk": 9, "span": "L130-141"}
+    }
+  ],
+  "graph": [
+    {
+      "id": "g1",
+      "text": "[Path] Neo4j -[USES]- LightRAG -[IMPLEMENTS]- GraphRAG -[EXTENDS]- RAG (3홉 경로). Neo4j 와 RAG 는 직접 연결이 없고 LightRAG·GraphRAG 를 디딤돌로 이어진다.",
+      "score": 3.0,
+      "metadata": {"source_kind": "path", "hops": 3, "entities": ["Neo4j", "LightRAG", "GraphRAG", "RAG"]}
+    },
+    {
+      "id": "g2",
+      "text": "[Local] LightRAG 의 1홉 이웃: LightRAG -[IMPLEMENTS]- GraphRAG, LightRAG -[DEVELOPED_BY]- HKUDS, LightRAG -[USES]- Neo4j, LightRAG -[EMBEDS_WITH]- VoyageAI.",
+      "score": 0.92,
+      "metadata": {"source_kind": "local", "center": "LightRAG", "depth": 1}
+    },
+    {
+      "id": "g3",
+      "text": "[Local] Neo4j 의 1홉 이웃: Neo4j -[USES]- LightRAG. Neo4j 는 LightRAG 가 그래프 인덱스를 저장하는 백엔드로 쓰인다.",
+      "score": 0.55,
+      "metadata": {"source_kind": "local", "center": "Neo4j", "depth": 1}
+    },
+    {
+      "id": "g4",
+      "text": "[Community] 커뮤니티 0(검색 기법): RAG·GraphRAG·LightRAG·multi-hop·vector search 가 한 묶음이다. GraphRAG 가 RAG 의 멀티홉 한계를 보완하고 LightRAG 가 이를 구현한다.",
+      "score": 8.0,
+      "metadata": {"source_kind": "community", "community": 0, "relevance": 8}
+    },
+    {
+      "id": "g5",
+      "text": "[Community] 커뮤니티 2(평가·관측): Ragas·Langfuse·Baseline·evaluation·QA accuracy 가 한 묶음이다. Baseline 이 GraphRAG 개선의 기준선이 된다.",
+      "score": 4.0,
+      "metadata": {"source_kind": "community", "community": 2, "relevance": 4}
+    }
+  ]
+}

@@ -202,10 +202,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **04-vector-graph-fusion** — Rerank · Context Packing · Token Budget
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **05-graphrag-qa-ab** — Vector vs Local vs Global vs Hybrid A/B
   - [ ] lesson.md 초안 (kb-agent)
