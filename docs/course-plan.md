@@ -98,10 +98,10 @@
 > 추출이 아니라 정제가 그래프 품질을 좌우 — Entity Resolution · 품질 게이트.
 
 - [ ] **01-text-to-graph-schema** — Entity·Relation·Claim·Event·Schema 개념 + Competency Question → Schema
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-entity-extraction-pydantic** — 문서에서 Entity 후보 추출 — Structured Output · Pydantic
   - [ ] lesson.md 초안 (kb-agent)
