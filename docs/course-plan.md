@@ -141,10 +141,10 @@
 > 추출한 그래프를 Neo4j에 실무 수준으로 적재 — Cypher 멀티홉 · 하이브리드 검색 · GDS.
 
 - [ ] **01-neo4j-fundamentals** — LPG · Transaction · Python Driver · Index · GDS 개요
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-bulk-ingest-merge** — 연결 · Bulk Ingest — UNWIND · MERGE · Constraint
   - [ ] lesson.md 초안 (kb-agent)

@@ -1,0 +1,7 @@
+# Phase 3 / 01 — Neo4j Fundamentals
+# Neo4j 공식 Python Driver. 5.26 LTS 서버와 2025.x CalVer 서버 모두 호환.
+neo4j>=5.26
+
+# GDS 를 파이썬에서 직접 호출하려면 아래를 쓴다(이 토픽은 개요만 — 설치 선택).
+# 실제 알고리즘 실행은 토픽 06 에서 다룬다.
+# graphdatascience>=1.12
