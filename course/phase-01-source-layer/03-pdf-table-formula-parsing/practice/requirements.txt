@@ -1,0 +1,13 @@
+# Phase 1 · 토픽 03 — PDF·표·수식 파싱 비교 실습 의존성
+#
+# 설치: pip install -r requirements.txt
+#
+# 주의:
+# - MinerU 는 모델·의존이 무거워 여기 requirements 에 넣지 않는다.
+#   별도로 설치한다:  uv pip install -U "mineru[all]"   (또는 pip install -U "mineru[all]")
+#   첫 실행 때 VLM 모델을 내려받으며, GPU 가 있으면 훨씬 빠르다(CPU 도 동작은 한다).
+# - RAG-Anything 의 질의 단계는 LLM·임베딩이 필요하지만 03 에서는 파싱만 한다(키 불필요).
+
+docling
+raganything
+pandas
