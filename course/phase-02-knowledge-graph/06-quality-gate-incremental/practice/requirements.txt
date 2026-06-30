@@ -1,0 +1,10 @@
+# 이 토픽은 키 없이, 네트워크 없이 결정적으로 돈다. 아래 하나면 충분하다.
+pydantic>=2
+
+# graph_store·ingest·eval 은 표준 라이브러리만 쓴다(json·pathlib·argparse·dataclasses).
+# 그래프 스토어 백엔드는 JSONL 스냅샷이라 sqlite3 조차 import 하지 않는다(둘 다 표준 라이브러리).
+#
+# pyshacl 은 SHACL 제약을 RDF 그래프에 적용하는 표준 도구다. 이 토픽의 품질 게이트는
+# 같은 발상을 순수 파이썬 규칙으로 옮겼으므로 필수가 아니다. SHACL 을 RDF 로 직접
+# 돌려 보고 싶을 때만 선택적으로 설치한다(아래 주석 해제).
+#   pyshacl>=0.25

@@ -1,0 +1,6 @@
+{"head":"LightRAG","type":"USES","tail":"Neo4j","direction":"asymmetric","provenances":[{"source_id":"src-08-docs","version":"v2@aa11bb22","start":300,"end":360,"quote":"LightRAG relies on Neo4j for its labeled property graph"}]}
+{"head":"GraphRAG","type":"USES","tail":"Neo4j","direction":"asymmetric","provenances":[{"source_id":"src-08-docs","version":"v2@aa11bb22","start":900,"end":980,"quote":"GraphRAG can persist communities into Neo4j"}]}
+{"head":"CRAG","type":"COMPARES_TO","tail":"Self-RAG","direction":"symmetric","provenances":[{"source_id":"src-09-survey2","version":"v2@cc33dd44","start":120,"end":190,"quote":"CRAG is compared with Self-RAG on retrieval correction"}]}
+{"head":"GraphRAG","type":"IMPROVES","tail":"multi-hop","direction":"asymmetric","provenances":[{"source_id":"src-08-docs","version":"v2@aa11bb22","start":1400,"end":1470,"quote":"GraphRAG improves multi-hop reasoning over baseline RAG"}]}
+{"head":"LightRAG","type":"USES","tail":"VoyageAI","direction":"asymmetric","provenances":[{"source_id":"src-10-blog2","version":"v2@ee55ff66","start":40,"end":88,"quote":"LightRAG can call VoyageAI embeddings"}]}
+{"head":"RAG","type":"IMPROVES","tail":"retrieval quality","direction":"asymmetric","provenances":[]}

@@ -1,0 +1,10 @@
+{"head":"LightRAG","type":"USES","tail":"Neo4j"}
+{"head":"Self-RAG","type":"IMPROVES","tail":"RAG"}
+{"head":"CRAG","type":"IMPROVES","tail":"RAG"}
+{"head":"GraphRAG","type":"IMPROVES","tail":"RAG"}
+{"head":"GraphRAG","type":"COMPARES_TO","tail":"LightRAG"}
+{"head":"LightRAG","type":"DEVELOPED_BY","tail":"HKUDS"}
+{"head":"GraphRAG","type":"DEVELOPED_BY","tail":"Microsoft"}
+{"head":"GraphRAG","type":"USES","tail":"Neo4j"}
+{"head":"GraphRAG","type":"IMPROVES","tail":"multi-hop"}
+{"head":"CRAG","type":"USES","tail":"LangChain"}
