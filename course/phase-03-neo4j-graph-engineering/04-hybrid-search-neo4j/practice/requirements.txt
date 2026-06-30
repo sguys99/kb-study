@@ -1,0 +1,14 @@
+# 04 하이브리드 검색 의존성. Python 3.11+ 권장.
+#
+# 설치:
+#   pip install -r requirements.txt
+#
+# voyageai 는 임베딩 부여(add_embeddings.py)와 질의 임베딩(hybrid_search.py)에 쓴다.
+# 비용 0 분기로 Ollama + bge-m3 를 쓰려면 voyageai 대신 requests 만 있으면 된다
+# (requests 는 대부분 환경에 이미 깔려 있고, 아래 주석 분기 참고).
+
+neo4j>=5.26,<6            # Neo4j Python Driver — 03 과 동일
+voyageai>=0.3.0          # VoyageAI 임베딩 클라이언트(voyage-3.5)
+
+# --- 비용 0 대안(Ollama + bge-m3)을 쓸 때만 ---
+# requests>=2.31         # Ollama /api/embeddings 호출용. voyageai 없이 동작.

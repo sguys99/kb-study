@@ -159,10 +159,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **04-hybrid-search-neo4j** — Vector · Full-text · Graph Hybrid Search
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **05-query-tuning-readonly-guard** — EXPLAIN · PROFILE 튜닝 + Read-only Guard
   - [ ] lesson.md 초안 (kb-agent)
