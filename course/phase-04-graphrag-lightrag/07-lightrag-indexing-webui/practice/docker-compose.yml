@@ -1,0 +1,29 @@
+# LightRAG API Server + WebUI 구동용 compose.
+#
+# 실행:
+#   cp .env.example .env   # 키·바인딩 채우기(BASIC=Claude+Voyage / OLLAMA=비용0)
+#   docker compose up -d
+#   curl http://localhost:9621/health        # {"status":"healthy",...}
+#   브라우저: http://localhost:9621/webui     # 업로드·인덱싱·5모드 질의·그래프 시각화
+#
+# WebUI/API 무prefix 기본 모드는 hybrid 다(prefix /local /global /mix 등으로 강제).
+# rag_storage 볼륨이 index_corpus.py 의 WORKING_DIR 과 같은 저장소를 가리키면
+# CLI로 인덱싱한 그래프를 WebUI에서도 그대로 본다.
+
+services:
+  lightrag:
+    image: ghcr.io/hkuds/lightrag:latest
+    container_name: lightrag
+    ports:
+      - "9621:9621"          # API + WebUI (PORT)
+    env_file:
+      - .env
+    volumes:
+      - ./rag_storage:/app/data/rag_storage   # KG + 벡터 저장소(5모드 공유)
+      - ./corpus:/app/data/inputs             # 업로드/인덱싱 입력 문서
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9621/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

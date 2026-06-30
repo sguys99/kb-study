@@ -1,0 +1,24 @@
+# 07-lightrag-indexing-webui practice 의존
+#
+# 본 토픽은 LightRAG를 실제로 설치·인덱싱·질의하고 WebUI까지 띄운다.
+# API 서버·WebUI까지 쓰므로 [api] extra가 붙은 패키지를 설치한다.
+#
+#   pip install -r requirements.txt
+#
+# Core만 필요하면 lightrag-hku[api] 대신 lightrag-hku 로 줄여도 된다(단, WebUI는 못 띄움).
+
+lightrag-hku[api]      # LightRAG Core + API Server + WebUI (HKUDS)
+
+# --- LLM / 임베딩 백엔드 ---------------------------------------------------
+# 본 과정 기본 스택: Claude(anthropic) + VoyageAI(voyage-3.5).
+# lightrag-hku[api] 의존성에 anthropic·voyageai·ollama 바인딩이 이미 포함되지만,
+# 직접 호출(index_corpus.py)에서 쓰는 SDK를 명시해 둔다.
+anthropic              # Claude LLM 호출 (ANTHROPIC_API_KEY 필요)
+voyageai               # VoyageAI 임베딩 voyage-3.5 (VOYAGE_API_KEY 필요)
+
+# --- 비용 0 대안 분기 ------------------------------------------------------
+# 키가 부담되면 LLM=Ollama, 임베딩=bge-m3(Ollama) 로 교체한다(아래 패키지로 충분).
+# 별도 설치: Ollama 데몬(https://ollama.com) + `ollama pull bge-m3` + `ollama pull qwen2.5`
+# ollama               # (선택) Ollama 파이썬 클라이언트. LightRAG ollama 바인딩 사용 시
+
+python-dotenv          # .env 로딩 (os.environ 보조)
