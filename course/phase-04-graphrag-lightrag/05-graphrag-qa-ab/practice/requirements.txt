@@ -1,0 +1,21 @@
+# 4.5 의존성 — A/B 하니스(골든셋·전략·지표·러너)는 표준 라이브러리만으로 돈다.
+#
+# goldenset.py / metrics.py / ab_runner.py 는 외부 패키지 없이 골든셋 JSON 만으로 끝까지 동작한다
+# (키 불필요, 과금 0). 04 의 fusion_pipeline 을 import 경로에 올려 그대로 재사용한다.
+#
+# Hybrid 전략이 04 의 rerank/token_budget 을 거치는데, 그것도 키 없으면 자동 폴백으로 떨어진다.
+# 기본 설치는 비워 둬도 된다. 아래는 "더 정확하게" 하고 싶을 때 켜는 선택 분기다(04 와 동일).
+
+# (선택 1) 토큰 카운트를 char/4 근사 대신 tiktoken 으로 정확히 세려면 설치.
+#   없으면 04 token_budget.py 가 자동으로 char/4 근사로 떨어진다.
+# tiktoken>=0.7
+
+# (선택 2) Hybrid 의 재순위화 백엔드.
+#   - 상용: voyageai (VOYAGE_API_KEY 필요, rerank-2.5)
+#   - 비용 0 로컬 대안: sentence-transformers + BAAI/bge-reranker-v2-m3 (키 불필요)
+#   둘 다 없으면 Hybrid 는 융합 점수를 그대로 쓰는 'identity' 폴백으로 떨어진다.
+# voyageai>=0.3
+# sentence-transformers>=3.0
+
+# (선택 3) .env 에서 키를 읽으려면 설치. 없으면 os.environ 만 쓴다.
+# python-dotenv>=1.0

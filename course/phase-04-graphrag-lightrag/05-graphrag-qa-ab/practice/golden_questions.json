@@ -1,0 +1,142 @@
+{
+  "_about": "4.5 골든 질문셋 — 같은 질문 위에 Vector/Local/Global/Hybrid 네 전략을 세워 A/B 한다. 각 질문은 type(simple-fact / multi-hop / global-summary)으로 분류되고, gold 에 정답 근거 후보 id 집합이 라벨링돼 있다. 각 질문은 vector/graph 후보 풀을 동봉한다(키 없이 결정론적으로 재현). 코퍼스는 Phase 4 공통 AI/LLM 미니 그래프(Neo4j·LightRAG·GraphRAG·RAG·VoyageAI·Ragas·Langfuse·HKUDS 등). 후보 스키마는 4.4 candidates.py 의 Candidate(id, source, text, score, metadata)와 동일. graph 후보의 metadata.source_kind 는 local/path/community 중 하나.",
+  "questions": [
+    {
+      "qid": "q1",
+      "type": "simple-fact",
+      "question": "VoyageAI 의 기본 임베딩 모델 이름은 무엇인가?",
+      "gold": ["q1_v1"],
+      "vector": [
+        {"id": "q1_v1", "text": "VoyageAI 의 기본 임베딩 모델은 voyage-3.5 다. 고품질이 필요하면 voyage-3-large, 문맥형은 voyage-context-3 를 쓴다.", "score": 0.89, "metadata": {"doc": "voyageai_docs", "chunk": 1, "span": "L8-19"}},
+        {"id": "q1_v2", "text": "VoyageAI 는 임베딩 외에 rerank-2.5 재순위 모델도 제공한다. 검색 후 상위 후보를 다시 점수 매기는 데 쓴다.", "score": 0.71, "metadata": {"doc": "voyageai_docs", "chunk": 2, "span": "L20-31"}},
+        {"id": "q1_v3", "text": "임베딩은 텍스트를 벡터로 바꿔 코사인 유사도로 의미 근접 청크를 찾게 해 준다.", "score": 0.55, "metadata": {"doc": "rag_survey", "chunk": 9, "span": "L130-141"}}
+      ],
+      "graph": [
+        {"id": "q1_g1", "text": "[Local] VoyageAI 의 1홉 이웃: VoyageAI -[PROVIDES]- voyage-3.5, VoyageAI -[PROVIDES]- rerank-2.5, LightRAG -[EMBEDS_WITH]- VoyageAI.", "score": 0.81, "metadata": {"source_kind": "local", "center": "VoyageAI", "depth": 1}},
+        {"id": "q1_g2", "text": "[Community] 커뮤니티 1(임베딩·재순위): VoyageAI·voyage-3.5·rerank-2.5·bge-m3·cross-encoder 가 한 묶음이다.", "score": 6.0, "metadata": {"source_kind": "community", "community": 1, "relevance": 6}}
+      ]
+    },
+    {
+      "qid": "q2",
+      "type": "simple-fact",
+      "question": "LightRAG 를 만든 곳은 어디인가?",
+      "gold": ["q2_v1"],
+      "vector": [
+        {"id": "q2_v1", "text": "LightRAG 는 HKUDS(홍콩대 데이터 사이언스 랩)가 개발한 그래프 기반 RAG 프레임워크다.", "score": 0.86, "metadata": {"doc": "lightrag_readme", "chunk": 1, "span": "L1-12"}},
+        {"id": "q2_v2", "text": "LightRAG 는 naive/local/global/hybrid/mix 다섯 가지 쿼리 모드를 제공한다.", "score": 0.69, "metadata": {"doc": "lightrag_readme", "chunk": 5, "span": "L60-72"}},
+        {"id": "q2_v3", "text": "GraphRAG 는 RAG 의 멀티홉 한계를 그래프로 보완하려는 접근의 총칭이다.", "score": 0.52, "metadata": {"doc": "graphrag_survey", "chunk": 2, "span": "L30-44"}}
+      ],
+      "graph": [
+        {"id": "q2_g1", "text": "[Local] LightRAG 의 1홉 이웃: LightRAG -[DEVELOPED_BY]- HKUDS, LightRAG -[IMPLEMENTS]- GraphRAG, LightRAG -[USES]- Neo4j.", "score": 0.90, "metadata": {"source_kind": "local", "center": "LightRAG", "depth": 1}},
+        {"id": "q2_g2", "text": "[Community] 커뮤니티 0(검색 기법): RAG·GraphRAG·LightRAG·multi-hop·vector search 가 한 묶음이다.", "score": 7.0, "metadata": {"source_kind": "community", "community": 0, "relevance": 7}}
+      ]
+    },
+    {
+      "qid": "q3",
+      "type": "simple-fact",
+      "question": "RRF 의 평활 상수 k 로 흔히 쓰는 값은?",
+      "gold": ["q3_v1"],
+      "vector": [
+        {"id": "q3_v1", "text": "RRF(Reciprocal Rank Fusion)는 점수의 값이 아니라 순위만 본다. 공식은 RRF(d)=Σ 1/(k+rank) 이고 k 는 보통 60 을 쓴다.", "score": 0.84, "metadata": {"doc": "fusion_notes", "chunk": 1, "span": "L1-14"}},
+        {"id": "q3_v2", "text": "min-max 정규화 가중합은 스케일을 맞추지만 가중치 alpha 를 손으로 정해야 한다.", "score": 0.66, "metadata": {"doc": "fusion_notes", "chunk": 2, "span": "L15-26"}},
+        {"id": "q3_v3", "text": "벡터 검색과 BM25 를 섞는 하이브리드 검색은 Phase 1 의 기준선이다.", "score": 0.49, "metadata": {"doc": "baseline_notes", "chunk": 1, "span": "L1-9"}}
+      ],
+      "graph": [
+        {"id": "q3_g1", "text": "[Local] RRF 의 1홉 이웃: RRF -[FUSES]- vector, RRF -[FUSES]- graph, Hybrid -[USES]- RRF.", "score": 0.62, "metadata": {"source_kind": "local", "center": "RRF", "depth": 1}}
+      ]
+    },
+    {
+      "qid": "q4",
+      "type": "multi-hop",
+      "question": "Neo4j 와 RAG 는 어떻게 연결되며, 그 사이에서 LightRAG 는 무슨 역할을 하나?",
+      "gold": ["q4_g1", "q4_g2"],
+      "vector": [
+        {"id": "q4_v1", "text": "LightRAG 는 검색 단계에서 벡터 인덱스와 그래프 인덱스를 함께 쓰는 RAG 프레임워크다.", "score": 0.80, "metadata": {"doc": "lightrag_readme", "chunk": 12, "span": "L120-138"}},
+        {"id": "q4_v2", "text": "RAG 는 외부 문서를 임베딩해 벡터 검색으로 top-k 청크를 가져와 LLM 에 근거로 넣는다.", "score": 0.74, "metadata": {"doc": "rag_survey", "chunk": 3, "span": "L40-55"}},
+        {"id": "q4_v3", "text": "Neo4j 는 LPG(레이블드 프로퍼티 그래프) 모델의 그래프 데이터베이스다. Cypher 로 질의한다.", "score": 0.70, "metadata": {"doc": "neo4j_docs", "chunk": 4, "span": "L50-63"}}
+      ],
+      "graph": [
+        {"id": "q4_g1", "text": "[Path] Neo4j -[USES]- LightRAG -[IMPLEMENTS]- GraphRAG -[EXTENDS]- RAG (3홉 경로). Neo4j 와 RAG 는 직접 연결이 없고 LightRAG·GraphRAG 를 디딤돌로 이어진다.", "score": 3.0, "metadata": {"source_kind": "path", "hops": 3, "entities": ["Neo4j", "LightRAG", "GraphRAG", "RAG"]}},
+        {"id": "q4_g2", "text": "[Local] LightRAG 의 1홉 이웃: LightRAG -[IMPLEMENTS]- GraphRAG, LightRAG -[USES]- Neo4j, LightRAG -[EMBEDS_WITH]- VoyageAI. LightRAG 가 Neo4j 와 RAG 계열을 잇는 다리다.", "score": 0.92, "metadata": {"source_kind": "local", "center": "LightRAG", "depth": 1}},
+        {"id": "q4_g3", "text": "[Community] 커뮤니티 0(검색 기법): RAG·GraphRAG·LightRAG·multi-hop·vector search 가 한 묶음이다.", "score": 5.0, "metadata": {"source_kind": "community", "community": 0, "relevance": 5}}
+      ]
+    },
+    {
+      "qid": "q5",
+      "type": "multi-hop",
+      "question": "Ragas 로 측정한 점수는 결국 무엇과 비교되며, 그 기준선은 어디서 왔나?",
+      "gold": ["q5_g1", "q5_g2"],
+      "vector": [
+        {"id": "q5_v1", "text": "Ragas 는 RAG 파이프라인의 검색·생성 품질을 지표로 측정하는 평가 프레임워크다.", "score": 0.82, "metadata": {"doc": "ragas_docs", "chunk": 1, "span": "L1-12"}},
+        {"id": "q5_v2", "text": "Langfuse 는 LLM 애플리케이션의 트레이스·비용·지연을 관측한다.", "score": 0.61, "metadata": {"doc": "langfuse_docs", "chunk": 1, "span": "L1-10"}},
+        {"id": "q5_v3", "text": "Baseline Hybrid RAG 는 Vector 와 BM25 를 섞은 Phase 1 의 검색기다.", "score": 0.58, "metadata": {"doc": "baseline_notes", "chunk": 2, "span": "L10-20"}}
+      ],
+      "graph": [
+        {"id": "q5_g1", "text": "[Path] Ragas -[MEASURES]- GraphRAG -[COMPARED_TO]- Baseline -[BUILT_IN]- Phase1 (3홉 경로). Ragas 점수는 Baseline 과 비교되고, 그 Baseline 은 Phase 1 의 Hybrid RAG 에서 왔다.", "score": 3.0, "metadata": {"source_kind": "path", "hops": 3, "entities": ["Ragas", "GraphRAG", "Baseline", "Phase1"]}},
+        {"id": "q5_g2", "text": "[Local] Baseline 의 1홉 이웃: Baseline -[BUILT_IN]- Phase1, GraphRAG -[COMPARED_TO]- Baseline, Ragas -[MEASURES]- Baseline. Baseline 이 모든 개선의 비교 기준이다.", "score": 0.88, "metadata": {"source_kind": "local", "center": "Baseline", "depth": 1}},
+        {"id": "q5_g3", "text": "[Community] 커뮤니티 2(평가·관측): Ragas·Langfuse·Baseline·evaluation·QA accuracy 가 한 묶음이다.", "score": 4.0, "metadata": {"source_kind": "community", "community": 2, "relevance": 4}}
+      ]
+    },
+    {
+      "qid": "q6",
+      "type": "multi-hop",
+      "question": "voyage-3.5 임베딩으로 만든 벡터는 어느 저장소에 인덱싱되며, 그것을 쓰는 프레임워크는 무엇인가?",
+      "gold": ["q6_g1"],
+      "vector": [
+        {"id": "q6_v1", "text": "voyage-3.5 는 VoyageAI 의 기본 임베딩 모델이다.", "score": 0.79, "metadata": {"doc": "voyageai_docs", "chunk": 1, "span": "L8-19"}},
+        {"id": "q6_v2", "text": "Neo4j 는 네이티브 벡터 인덱스를 지원해 임베딩을 그래프와 같은 DB 에 둘 수 있다.", "score": 0.72, "metadata": {"doc": "neo4j_docs", "chunk": 8, "span": "L110-124"}},
+        {"id": "q6_v3", "text": "LightRAG 는 벡터 인덱스와 그래프 인덱스를 함께 쓴다.", "score": 0.68, "metadata": {"doc": "lightrag_readme", "chunk": 12, "span": "L120-138"}}
+      ],
+      "graph": [
+        {"id": "q6_g1", "text": "[Path] voyage-3.5 -[EMBEDS_FOR]- LightRAG -[USES]- Neo4j -[STORES]- vector-index (3홉 경로). voyage-3.5 임베딩은 LightRAG 를 거쳐 Neo4j 의 벡터 인덱스에 저장된다.", "score": 3.0, "metadata": {"source_kind": "path", "hops": 3, "entities": ["voyage-3.5", "LightRAG", "Neo4j", "vector-index"]}},
+        {"id": "q6_g2", "text": "[Local] Neo4j 의 1홉 이웃: Neo4j -[USES]- LightRAG, Neo4j -[STORES]- vector-index, Neo4j -[RUNS]- GDS.", "score": 0.74, "metadata": {"source_kind": "local", "center": "Neo4j", "depth": 1}}
+      ]
+    },
+    {
+      "qid": "q7",
+      "type": "global-summary",
+      "question": "이 코퍼스에서 검색 기법 관련 개념들은 전체적으로 어떻게 묶이나?",
+      "gold": ["q7_g1"],
+      "vector": [
+        {"id": "q7_v1", "text": "RAG 는 의미 근접 청크를 잘 찾는다. 멀티홉 관계는 흩어진 청크 사이를 못 잇는다.", "score": 0.63, "metadata": {"doc": "rag_survey", "chunk": 7, "span": "L88-101"}},
+        {"id": "q7_v2", "text": "GraphRAG 는 그래프 구조로 RAG 의 한계를 보완한다.", "score": 0.60, "metadata": {"doc": "graphrag_survey", "chunk": 2, "span": "L30-44"}},
+        {"id": "q7_v3", "text": "LightRAG 는 다섯 쿼리 모드를 제공하는 그래프 RAG 프레임워크다.", "score": 0.57, "metadata": {"doc": "lightrag_readme", "chunk": 5, "span": "L60-72"}}
+      ],
+      "graph": [
+        {"id": "q7_g1", "text": "[Community] 커뮤니티 0(검색 기법) 요약: RAG·GraphRAG·LightRAG·multi-hop·vector search 가 한 묶음이다. GraphRAG 가 RAG 의 멀티홉 한계를 보완하고, LightRAG 가 이를 구현하며, Neo4j 가 그래프·벡터 인덱스를 받친다. 검색 기법 전반을 한 덩어리로 조망한다.", "score": 9.0, "metadata": {"source_kind": "community", "community": 0, "relevance": 9}},
+        {"id": "q7_g2", "text": "[Local] LightRAG 의 1홉 이웃: LightRAG -[IMPLEMENTS]- GraphRAG, LightRAG -[USES]- Neo4j.", "score": 0.70, "metadata": {"source_kind": "local", "center": "LightRAG", "depth": 1}},
+        {"id": "q7_g3", "text": "[Path] RAG -[EXTENDED_BY]- GraphRAG -[IMPLEMENTED_BY]- LightRAG (2홉 경로).", "score": 2.0, "metadata": {"source_kind": "path", "hops": 2, "entities": ["RAG", "GraphRAG", "LightRAG"]}}
+      ]
+    },
+    {
+      "qid": "q8",
+      "type": "global-summary",
+      "question": "평가와 관측성 쪽 도구들은 전체적으로 어떤 그림을 이루나?",
+      "gold": ["q8_g1"],
+      "vector": [
+        {"id": "q8_v1", "text": "Ragas 는 RAG 품질을 지표로 측정하는 평가 프레임워크다.", "score": 0.64, "metadata": {"doc": "ragas_docs", "chunk": 1, "span": "L1-12"}},
+        {"id": "q8_v2", "text": "Langfuse 는 LLM 앱의 트레이스·비용·지연을 관측한다.", "score": 0.62, "metadata": {"doc": "langfuse_docs", "chunk": 1, "span": "L1-10"}},
+        {"id": "q8_v3", "text": "Baseline 은 Phase 1 의 Hybrid RAG 점수다.", "score": 0.56, "metadata": {"doc": "baseline_notes", "chunk": 2, "span": "L10-20"}}
+      ],
+      "graph": [
+        {"id": "q8_g1", "text": "[Community] 커뮤니티 2(평가·관측) 요약: Ragas·Langfuse·Baseline·evaluation·QA accuracy 가 한 묶음이다. Ragas 가 검색·생성 품질을 측정하고, Langfuse 가 실행을 관측하며, Baseline 이 모든 개선의 비교 기준이 된다. 평가·관측 파이프라인 전반을 한눈에 묶는다.", "score": 8.0, "metadata": {"source_kind": "community", "community": 2, "relevance": 8}},
+        {"id": "q8_g2", "text": "[Local] Ragas 의 1홉 이웃: Ragas -[MEASURES]- GraphRAG, Ragas -[MEASURES]- Baseline.", "score": 0.66, "metadata": {"source_kind": "local", "center": "Ragas", "depth": 1}}
+      ]
+    },
+    {
+      "qid": "q9",
+      "type": "global-summary",
+      "question": "이 코퍼스 전체를 큰 주제 묶음으로 나누면 어떻게 되나?",
+      "gold": ["q9_g1", "q9_g2"],
+      "vector": [
+        {"id": "q9_v1", "text": "RAG·GraphRAG·LightRAG 는 검색 기법이다.", "score": 0.55, "metadata": {"doc": "graphrag_survey", "chunk": 2, "span": "L30-44"}},
+        {"id": "q9_v2", "text": "Ragas·Langfuse 는 평가·관측 도구다.", "score": 0.53, "metadata": {"doc": "ragas_docs", "chunk": 1, "span": "L1-12"}}
+      ],
+      "graph": [
+        {"id": "q9_g1", "text": "[Community] 커뮤니티 0(검색 기법) 요약: RAG·GraphRAG·LightRAG·multi-hop·vector search. 검색·생성 기법 묶음.", "score": 9.0, "metadata": {"source_kind": "community", "community": 0, "relevance": 9}},
+        {"id": "q9_g2", "text": "[Community] 커뮤니티 2(평가·관측) 요약: Ragas·Langfuse·Baseline·evaluation·QA accuracy. 평가·관측 묶음.", "score": 8.0, "metadata": {"source_kind": "community", "community": 2, "relevance": 8}},
+        {"id": "q9_g3", "text": "[Local] LightRAG 의 1홉 이웃: LightRAG -[USES]- Neo4j, LightRAG -[EMBEDS_WITH]- VoyageAI.", "score": 0.60, "metadata": {"source_kind": "local", "center": "LightRAG", "depth": 1}}
+      ]
+    }
+  ]
+}
