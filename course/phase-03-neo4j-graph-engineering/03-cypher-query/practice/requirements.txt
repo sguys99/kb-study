@@ -1,0 +1,4 @@
+# Phase 3 / 03 — Cypher Query
+# Neo4j 공식 Python Driver. 5.26 LTS 서버와 2025.x CalVer 서버 모두 호환.
+# 02 와 동일한 단일 의존성. 나머지는 표준 라이브러리(os, sys)만 쓴다.
+neo4j>=5.26
