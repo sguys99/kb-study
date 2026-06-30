@@ -1,0 +1,62 @@
+# LightRAG(그래프 백엔드=Neo4j) 운영용 compose.
+#
+# 07 의 lightrag 서비스에 neo4j:5.26 서비스를 더했다.
+# 그래프 스토리지만 Neo4j 로 가고, KV/Vector/DocStatus 는 rag_storage 볼륨(파일)에 남는다.
+#
+# 실행:
+#   cp .env.example .env       # 키·Neo4j 비밀번호·동시성 채우기
+#   docker compose up -d
+#   docker compose ps          # neo4j, lightrag 모두 healthy 확인
+#   curl http://localhost:9621/health             # {"status":"healthy",...}
+#   브라우저: http://localhost:7474               # Neo4j Browser(엔티티·관계 시각화)
+#   브라우저: http://localhost:9621/webui         # LightRAG WebUI
+#
+# .env 의 NEO4J_PASSWORD 와 아래 NEO4J_AUTH 의 비밀번호는 같은 값이어야 한다.
+
+services:
+  neo4j:
+    image: neo4j:5.26          # 5.26 LTS (또는 2025+ CalVer). GDS 는 이 토픽엔 불필요
+    container_name: neo4j
+    ports:
+      - "7474:7474"            # HTTP — Neo4j Browser
+      - "7687:7687"            # Bolt — 드라이버 연결(NEO4J_URI)
+    environment:
+      # 형식: NEO4J_AUTH=neo4j/<password>. .env 의 NEO4J_PASSWORD 와 일치시킬 것.
+      NEO4J_AUTH: neo4j/please-change-me
+      NEO4J_PLUGINS: '["apoc"]'        # (선택) apoc — LightRAG Neo4j 백엔드 호환에 유용
+      NEO4J_server_memory_pagecache_size: 512M
+    volumes:
+      - ./neo4j/data:/data             # 그래프 데이터 영속화
+      - ./neo4j/logs:/logs
+    restart: unless-stopped
+    healthcheck:
+      # cypher-shell 로 1 을 질의해 DB 가 응답하는지 확인
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p please-change-me 'RETURN 1' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+
+  lightrag:
+    image: ghcr.io/hkuds/lightrag:latest
+    container_name: lightrag
+    depends_on:
+      neo4j:
+        condition: service_healthy     # Neo4j 가 뜬 뒤에 LightRAG 가 붙는다
+    ports:
+      - "9621:9621"          # API + WebUI (PORT)
+    env_file:
+      - .env
+    environment:
+      # 컨테이너 안에서 Neo4j 는 호스트 localhost 가 아니라 서비스명으로 붙는다.
+      # .env 의 NEO4J_URI(localhost) 를 compose 네트워크 주소로 덮어쓴다.
+      NEO4J_URI: neo4j://neo4j:7687
+    volumes:
+      - ./rag_storage:/app/data/rag_storage   # KV/Vector/DocStatus(그래프는 Neo4j 로 감)
+      - ./corpus:/app/data/inputs             # 인덱싱 입력 문서
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9621/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

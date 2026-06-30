@@ -1,0 +1,24 @@
+# 08-lightrag-neo4j-ops practice 의존
+#
+# 07과 같은 스택을 그대로 잇고, 그래프 스토리지만 Neo4j 로 교체한다.
+# 그래서 07 의존(lightrag-hku[api] + anthropic + voyageai) 위에
+# Neo4j 파이썬 드라이버 하나만 더 얹는다.
+#
+#   pip install -r requirements.txt
+#
+# Neo4j 서버 자체는 docker-compose.yml 로 띄운다(드라이버는 클라이언트일 뿐).
+
+lightrag-hku[api]      # LightRAG Core + API Server + WebUI (HKUDS) — 07 그대로
+neo4j                  # Neo4j Bolt 드라이버. graph_storage="Neo4JStorage" 가 내부에서 사용
+
+# --- LLM / 임베딩 백엔드 (07 계승) ----------------------------------------
+# 본 과정 기본 스택: Claude(anthropic) + VoyageAI(voyage-3.5).
+anthropic              # Claude LLM 호출 (ANTHROPIC_API_KEY 필요)
+voyageai               # VoyageAI 임베딩 voyage-3.5 (VOYAGE_API_KEY 필요)
+
+# --- 비용 0 대안 분기 ------------------------------------------------------
+# 키가 부담되면 LLM=Ollama, 임베딩=bge-m3(Ollama) 로 교체한다(07과 동일).
+# 별도 설치: Ollama 데몬(https://ollama.com) + `ollama pull bge-m3` + `ollama pull qwen2.5`
+# ollama               # (선택) Ollama 파이썬 클라이언트
+
+python-dotenv          # .env 로딩 (os.environ 보조)
