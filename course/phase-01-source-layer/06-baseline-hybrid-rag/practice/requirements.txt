@@ -1,0 +1,19 @@
+# 06 Baseline Hybrid RAG 의존성.
+#
+# 폴백 경로(키 없음)는 표준 라이브러리만으로 동작한다. 아래 패키지는
+# 상용 경로(VoyageAI 임베딩 · Claude 답변)를 쓸 때만 필요하다.
+#   - rank-bm25 : BM25(Sparse) 색인. 가벼운 순수 파이썬 구현.
+#   - numpy     : 코사인 유사도·벡터 연산.
+#   - pyyaml    : golden_questions.yaml 로드.
+#   - pydantic  : 05 Chunk 스키마 재현·검증(05와 동일 버전 계열).
+#   - voyageai  : (선택) VOYAGE_API_KEY 가 있을 때만 import. 없으면 해시 임베딩 폴백.
+#   - anthropic : (선택) ANTHROPIC_API_KEY 가 있을 때만 import. 없으면 추출형 폴백.
+#
+# 즉 voyageai·anthropic 을 설치하지 않아도 labs 전체가 폴백으로 돌아간다.
+rank-bm25>=0.2.2
+numpy>=1.26
+pyyaml>=6.0
+pydantic>=2.6
+# 아래 둘은 상용 경로 전용(선택). 키 없이 실습만 할 거면 설치하지 않아도 된다.
+voyageai>=0.3.0
+anthropic>=0.40.0

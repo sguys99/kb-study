@@ -1,0 +1,79 @@
+# golden_questions.yaml — 기준선 평가용 고정 질문 10개.
+#
+# 러닝 코퍼스(AI/LLM 문서) 8건을 대상으로 한다. source_id 는 05 DOC_META 와 일치:
+#   src-01-rag · src-02-self-rag · src-03-crag · src-04-graphrag-ms
+#   src-05-lightrag · src-06-neo4j · src-07-embedding · src-08-multihop
+#
+# 각 질문 필드:
+#   id                 : 안정 식별자(점수 파일이 질문별로 추적한다).
+#   question           : 질의 문자열.
+#   expected_source_ids: 정답 근거가 있어야 할 문서들(검색 Hit/Recall 채점 기준).
+#   answer_keywords    : 답변에 들어가야 할 핵심 키워드(인용·정답성 보조 채점).
+#   type               : single-hop | multi-hop.
+#                        multi-hop = 한 문서로 안 끝나고 둘 이상을 이어야 답이 되는 질문.
+#                        Vector-only 가 멀티홉에서 약하다는 걸 드러내 Phase 4 동기로 잇는다.
+#
+# 주의: expected_source_ids 는 '문서' 단위다. 청크 단위 정답을 콕 집고 싶으면
+#       expected_chunk_ids 를 추가로 둘 수 있다(여기선 문서 단위로 충분).
+
+questions:
+  - id: gq01
+    question: "기본 RAG 파이프라인은 어떤 단계로 동작하나?"
+    expected_source_ids: ["src-01-rag"]
+    answer_keywords: ["검색", "생성", "임베딩"]
+    type: single-hop
+
+  - id: gq02
+    question: "Self-RAG 의 self-reflection 은 무엇을 하나?"
+    expected_source_ids: ["src-02-self-rag"]
+    answer_keywords: ["reflection", "검증", "토큰"]
+    type: single-hop
+
+  - id: gq03
+    question: "CRAG 의 corrective 검색 평가는 어떻게 동작하나?"
+    expected_source_ids: ["src-03-crag"]
+    answer_keywords: ["corrective", "평가", "검색"]
+    type: single-hop
+
+  - id: gq04
+    question: "Microsoft GraphRAG 의 커뮤니티 요약이란 무엇인가?"
+    expected_source_ids: ["src-04-graphrag-ms"]
+    answer_keywords: ["community", "요약", "global"]
+    type: single-hop
+
+  - id: gq05
+    question: "LightRAG 의 다섯 가지 쿼리 모드는 무엇인가?"
+    expected_source_ids: ["src-05-lightrag"]
+    answer_keywords: ["naive", "local", "global", "hybrid", "mix"]
+    type: single-hop
+
+  - id: gq06
+    question: "Neo4j 의 속성 그래프 모델은 무엇을 저장하나?"
+    expected_source_ids: ["src-06-neo4j"]
+    answer_keywords: ["노드", "관계", "속성"]
+    type: single-hop
+
+  - id: gq07
+    question: "임베딩은 텍스트를 무엇으로 바꾸나?"
+    expected_source_ids: ["src-07-embedding"]
+    answer_keywords: ["벡터", "의미", "유사도"]
+    type: single-hop
+
+  # --- 멀티홉: 둘 이상 문서를 이어야 답이 된다. Vector-only 가 약한 지점. ---
+  - id: gq08
+    question: "Self-RAG 와 CRAG 는 검색 품질 문제를 각각 어떻게 보정하나?"
+    expected_source_ids: ["src-02-self-rag", "src-03-crag"]
+    answer_keywords: ["reflection", "corrective", "검색"]
+    type: multi-hop
+
+  - id: gq09
+    question: "GraphRAG 의 전역 요약과 멀티홉 질의 처리는 어떻게 연결되나?"
+    expected_source_ids: ["src-04-graphrag-ms", "src-08-multihop"]
+    answer_keywords: ["global", "멀티홉", "그래프"]
+    type: multi-hop
+
+  - id: gq10
+    question: "임베딩 기반 벡터 검색과 그래프 기반 멀티홉 검색은 어떻게 보완되나?"
+    expected_source_ids: ["src-07-embedding", "src-08-multihop"]
+    answer_keywords: ["임베딩", "멀티홉", "그래프"]
+    type: multi-hop
