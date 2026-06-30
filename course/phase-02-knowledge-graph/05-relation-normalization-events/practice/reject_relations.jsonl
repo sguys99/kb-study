@@ -1,0 +1,2 @@
+{"head": "LightRAG", "type": "RELATED_TO", "tail": "LightRAG", "reason": "self-loop(head==tail)", "provenance": {"source_id": "src-99-noise", "version": "v1@00000000", "start": 0, "end": 20, "quote": "LightRAG relates to LightRAG"}}
+{"head": "Self-RAG", "type": "INSPIRED_BY", "tail": "RAG", "reason": "vocab 미등록 술어", "provenance": {"source_id": "src-02-self-rag", "version": "v1@77aa00bb", "start": 700, "end": 730, "quote": "Self-RAG was inspired by RAG"}}

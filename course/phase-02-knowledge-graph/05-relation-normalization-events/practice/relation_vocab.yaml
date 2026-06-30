@@ -1,0 +1,87 @@
+# relation_vocab.yaml — 관계 타입 통제 어휘(Controlled Vocabulary)
+#
+# LLM 추출기는 같은 의미를 매번 다른 술어로 찍는다(USES/UTILIZES/EMPLOYS ...).
+# 이 파일이 surface predicate → canonical relation type 의 단일 기준이다.
+# 여기에 없는 술어는 reject queue 로 빠진다(2/06 품질 게이트로 연결).
+#
+# 구조:
+#   relations:
+#     CANONICAL_TYPE:
+#       synonyms:  [surface predicate ...]   # 이 표면형들이 CANONICAL_TYPE 로 정규화됨
+#       symmetry:  symmetric | asymmetric    # 방향 정규화 방식
+#       inverse:   CANONICAL_TYPE            # (asymmetric 한정) 역방향 표면형의 canonical
+#
+# 방향 규칙:
+#   - symmetric  : (head, tail) 을 이름 정렬해 한 방향으로만 저장 → A~B 와 B~A 가 한 엣지
+#   - asymmetric : inverse 가 정의된 타입은 '역방향'으로 들어온 엣지를 canonical 방향으로 flip
+#                  예: USED_BY 는 USES 의 inverse → "Neo4j USED_BY LightRAG" 를
+#                      "LightRAG USES Neo4j" 로 뒤집어 통일.
+
+relations:
+  USES:
+    synonyms: [USES, UTILIZES, EMPLOYS, RELIES_ON, BUILT_ON, STORES_IN]
+    symmetry: asymmetric
+    inverse: USED_BY        # USED_BY 로 들어오면 USES 로 flip
+
+  USED_BY:
+    synonyms: [USED_BY, EMPLOYED_BY, UTILIZED_BY]
+    symmetry: asymmetric
+    inverse: USES           # canonical 방향은 USES 쪽 — USED_BY 는 flip 대상
+
+  IMPROVES:
+    synonyms: [IMPROVES, ENHANCES, OUTPERFORMS, BOOSTS, BETTER_THAN]
+    symmetry: asymmetric
+    inverse: IMPROVED_BY
+
+  IMPROVED_BY:
+    synonyms: [IMPROVED_BY, ENHANCED_BY, OUTPERFORMED_BY]
+    symmetry: asymmetric
+    inverse: IMPROVES       # canonical 방향은 IMPROVES — IMPROVED_BY 는 flip 대상
+
+  DEVELOPED_BY:
+    synonyms: [DEVELOPED_BY, CREATED_BY, AUTHORED_BY, BUILT_BY, FROM]
+    symmetry: asymmetric
+    inverse: DEVELOPS
+
+  DEVELOPS:
+    synonyms: [DEVELOPS, CREATES, AUTHORS, BUILDS]
+    symmetry: asymmetric
+    inverse: DEVELOPED_BY
+
+  COMPARES_TO:
+    synonyms: [COMPARES_TO, COMPARED_WITH, COMPARED_TO, VERSUS, BENCHMARKED_AGAINST]
+    symmetry: symmetric     # 비교는 양방향 — (head,tail) 정렬해 한 엣지로 dedup
+
+  RELATED_TO:
+    synonyms: [RELATED_TO, ASSOCIATED_WITH, LINKED_TO]
+    symmetry: symmetric
+
+
+# canonical 방향(asymmetric 쌍 중 '대표'로 살릴 타입).
+# inverse 쌍에서 역방향 타입으로 들어온 엣지는 canonical_type 쪽으로 flip 된다.
+# 여기에 적힌 타입만 최종 그래프에 남고, 짝꿍(USED_BY·IMPROVED_BY·DEVELOPED_BY)은
+# flip 되어 사라진다.
+canonical_directions: [USES, IMPROVES, DEVELOPED_BY]
+
+
+# ── Event 타입 통제 어휘 (n-ary 관계 reification) ──────────────────────────────
+# 이항 (head,type,tail) 으로 못 담는 3항 이상 사실을 Event 노드로 reify 한다.
+# 03 events.jsonl 의 밋밋한 participants[] 에 role 라벨을 부여한다.
+#
+# 구조:
+#   events:
+#     CANONICAL_EVENT_TYPE:
+#       synonyms: [표면형 event name 토큰 ...]   # event name → canonical event type
+#       roles:    [role 이름 ...]                # 이 이벤트가 가지는 역할 슬롯
+#       time_role: <role>                        # time 값을 담을 role(있으면)
+
+events:
+  PUBLICATION:
+    synonyms: [PUBLICATION, PUBLISHED, RELEASE, PRESENTED]
+    roles: [published_work, venue, year]
+    time_role: year
+
+  MEASUREMENT:
+    synonyms: [MEASUREMENT, MEASURED, REPORTED, BENCHMARK]
+    roles: [subject, metric, value, baseline]
+    time_role: null

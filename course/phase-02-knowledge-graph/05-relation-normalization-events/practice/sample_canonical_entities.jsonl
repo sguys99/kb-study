@@ -1,0 +1,11 @@
+{"canonical_id": "ent-model-lightrag", "name": "LightRAG", "type": "Model", "aliases": ["Light RAG", "LightRag"], "member_count": 5}
+{"canonical_id": "ent-model-rag", "name": "RAG", "type": "Model", "aliases": [], "member_count": 3}
+{"canonical_id": "ent-organization-hkuds", "name": "HKUDS", "type": "Organization", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-tool-neo4j", "name": "Neo4j", "type": "Tool", "aliases": ["Neo4J"], "member_count": 2}
+{"canonical_id": "ent-model-self-rag", "name": "Self-RAG", "type": "Model", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-model-crag", "name": "CRAG", "type": "Model", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-concept-retrieval-quality", "name": "retrieval quality", "type": "Concept", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-model-graphrag", "name": "GraphRAG", "type": "Model", "aliases": [], "member_count": 3}
+{"canonical_id": "ent-organization-microsoft", "name": "Microsoft", "type": "Organization", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-concept-multi-hop", "name": "multi-hop", "type": "Concept", "aliases": [], "member_count": 1}
+{"canonical_id": "ent-venue-neurips", "name": "NeurIPS", "type": "Venue", "aliases": [], "member_count": 1}

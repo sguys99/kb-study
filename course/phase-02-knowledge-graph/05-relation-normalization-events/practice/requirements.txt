@@ -1,0 +1,9 @@
+# 이 토픽은 키 없이, 네트워크 없이 결정적으로 돈다. 아래 둘이면 충분하다.
+pydantic>=2
+pyyaml>=6
+
+# 표준 라이브러리만으로 대부분이 돌아간다(json·re·dataclasses·pathlib).
+# rapidfuzz 는 이 토픽에선 필수가 아니다 — 관계 타입 정규화는 통제 어휘(vocab)
+# 정확 매칭으로 하고, 표면형 흔들림은 vocab 의 synonyms 에 명시한다. 04 처럼
+# 술어를 fuzzy 로 묶고 싶을 때만 선택적으로 쓴다(아래 주석 해제).
+#   rapidfuzz>=3
