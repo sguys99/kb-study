@@ -1,0 +1,13 @@
+# Phase 6 / 03 langfuse-trace 실습 의존성
+#
+# langfuse>=3 : v3 는 OpenTelemetry 기반으로 SDK 가 v2 와 크게 다르다.
+#   - import 는 `from langfuse import observe, get_client` (v2 의 `Langfuse()` 직접 생성 방식 아님)
+#   - 키가 없으면 SDK 는 조용히 no-op 이 된다(전송 안 함, 예외도 안 냄).
+#     그래서 학습 확인용으로는 이 저장소의 콘솔 트레이서 폴백을 따로 쓴다(trace_util.py).
+langfuse>=3
+
+# LLM 호출용. 상용 경로에서만 실제로 부른다(과금). 없으면 스텁 LLM 으로 대체.
+anthropic>=0.40
+
+# .env 로 키를 관리할 때 편함(선택). 없어도 os.environ 로 동작.
+python-dotenv>=1.0

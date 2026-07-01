@@ -288,10 +288,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **03-langfuse-trace** — 검색 경로 · Tool Call · Cost · Latency 관측
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **04-ablation-ab-regression-gate** — Ablation · A/B · Regression Gate
   - [ ] lesson.md 초안 (kb-agent)
