@@ -1,0 +1,19 @@
+# 05-fallback-budget-checkpoint — Fallback·Retry·Cache·Budget·Stop·Human Checkpoint 가드 계층.
+#
+# 이 토픽의 가드(budget·guards·checkpoint)는 전부 표준 라이브러리만으로 돈다 — 추가 설치 없음.
+# 상위 루프(guarded_loop)는 04 practice(router·grader·query_rewrite)와 03 registry 를
+# 그 위에 얹어 재사용하므로, 04 가 쓰던 것만 있으면 된다.
+#
+# 설치(04 와 같은 가상환경을 재사용하면 이미 깔려 있다):
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# 04·03 이 이미 쓰던 것:
+#   - anthropic : LLM 경로(router/grader/rewrite 판정 + 최종 답, 예산은 usage). 키 없으면 mock.
+#   - pydantic  : 03 ontology_check.
+#   - PyYAML    : 03 ontology.yaml 로더.
+#
+# tenacity 는 retry 의 '대안'으로 lesson 에서 언급만 한다. 이 코스는 백오프를 직접 짜서 보인다.
+anthropic>=0.40
+pydantic>=2.7
+PyYAML>=6.0
