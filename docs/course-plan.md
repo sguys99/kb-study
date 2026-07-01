@@ -325,10 +325,10 @@
   - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **04-adaptive-corrective-rag** — Self-RAG · CRAG · Adaptive-RAG + Router · Grader · Query Rewrite
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **05-fallback-budget-checkpoint** — Fallback · Retry · Cache · Budget · Stop · Human Checkpoint
   - [ ] lesson.md 초안 (kb-agent)
