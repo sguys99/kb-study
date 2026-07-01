@@ -1,0 +1,14 @@
+{
+  "_comment": "Phase 2 Entity Resolution 이후에도 남아 있는 raw 노드들. 같은 실체가 표기·출처가 달라 여러 노드로 존재한다. 03 에서 canonical id 로 병합한다. raw_type 은 아직 카탈로그 표기로 정리 전(Method/Technique/Model 혼재).",
+  "nodes": [
+    {"raw_id": "n001", "surface": "Self-RAG",            "raw_type": "Method",    "source_doc": "arxiv:2310.11511"},
+    {"raw_id": "n002", "surface": "Self-Reflective RAG", "raw_type": "Technique", "source_doc": "blog:openai-cookbook"},
+    {"raw_id": "n003", "surface": "SELF-RAG",            "raw_type": "Model",     "source_doc": "arxiv:2401.15884"},
+    {"raw_id": "n004", "surface": "Corrective RAG",      "raw_type": "Method",    "source_doc": "arxiv:2401.15884"},
+    {"raw_id": "n005", "surface": "CRAG",                "raw_type": "Approach",  "source_doc": "blog:langchain"},
+    {"raw_id": "n006", "surface": "Graph RAG",           "raw_type": "Framework", "source_doc": "docs:microsoft-graphrag"},
+    {"raw_id": "n007", "surface": "그래프RAG",            "raw_type": "Method",    "source_doc": "blog:ko-review"},
+    {"raw_id": "n008", "surface": "PopQA",               "raw_type": "Dataset",   "source_doc": "arxiv:2310.11511"},
+    {"raw_id": "n009", "surface": "FancyRAG",            "raw_type": "Method",    "source_doc": "blog:unknown"}
+  ]
+}

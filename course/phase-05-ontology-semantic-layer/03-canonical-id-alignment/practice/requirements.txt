@@ -1,0 +1,4 @@
+# 03-canonical-id-alignment 실습 의존성
+# stdlib + 아래 둘만 있으면 전부 로컬에서 돈다. API 키·Neo4j 불필요.
+pydantic>=2.6
+PyYAML>=6.0

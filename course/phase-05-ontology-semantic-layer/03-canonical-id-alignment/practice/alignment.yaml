@@ -1,0 +1,106 @@
+# alignment.yaml — Ontology Alignment(정렬) 매핑 테이블 = 이 토픽의 핵심 산출물
+#
+# 우리 내부 concept_id 를 "외부 표준/온톨로지의 ID"에 매핑한다.
+# 표기 표준화(02)가 끝났으니, 개념당 한 번만 외부 정렬을 하면 된다.
+#
+# 왜 필요한가:
+#   - 우리 'self-rag' 가 arXiv 논문 2310.11511, Wikidata 개념과 "같다"는 사실을
+#     기계가 알 수 있게 명시해야 크로스워크(crosswalk)·데이터 통합·중복 탐지가 된다.
+#   - 이 매핑이 없으면 우리 KB 는 외딴 섬이 된다.
+#
+# match_type — SKOS mapping properties 를 본떴다(정확도 순):
+#   exact  : skos:exactMatch  — 사실상 동일 개념(교체 가능). 개념당 KB별 1개가 이상적.
+#   close  : skos:closeMatch  — 거의 같지만 미묘한 차이. 교체는 조심.
+#   broad  : skos:broadMatch  — 외부가 더 넓은 상위 개념.
+#   narrow : skos:narrowMatch — 외부가 더 좁은 하위 개념.
+#
+# confidence — 0.0~1.0. 사람이 확인했으면 1.0, LLM/자동 제안이면 낮게.
+# source     — 이 매핑을 누가/무엇이 만들었나(감사 추적용).
+#
+# 규약(alignment_model.py 가 로드 시 강제):
+#   - internal 은 vocabulary.yaml 의 concept_id 여야 한다(무결성).
+#   - 같은 (concept, target_kb) 에 exactMatch 가 2개 이상이면 경고(모호한 정렬).
+#   - confidence 는 0~1.
+
+version: "2025.07"
+
+# target_kb 별 외부 ID 포맷 힌트(리포트·URL 조립용). 값은 예시 형식이며 현실적인 모양을 따른다.
+external_kbs:
+  arxiv:
+    name: "arXiv"
+    id_pattern: "arXiv:<YYMM.NNNNN>"
+    url_template: "https://arxiv.org/abs/{id}"
+  wikidata:
+    name: "Wikidata"
+    id_pattern: "Q<number>"
+    url_template: "https://www.wikidata.org/wiki/{id}"
+  github:
+    name: "GitHub"
+    id_pattern: "<owner>/<repo>"
+    url_template: "https://github.com/{id}"
+
+mappings:
+  # self-rag: 논문(arXiv)과는 exactMatch, 위키데이터 상위 개념과는 broad
+  - internal: self-rag
+    target_kb: arxiv
+    external_id: "2310.11511"          # Self-RAG 논문(예시 형식)
+    match_type: exact
+    confidence: 1.0
+    source: manual
+    note: "Self-RAG 원논문. 사람이 확인."
+  - internal: self-rag
+    target_kb: wikidata
+    external_id: "Q108048247"          # (예시) 'retrieval-augmented generation' 개념
+    match_type: broad
+    confidence: 0.6
+    source: llm-suggested
+    note: "위키데이터에 Self-RAG 전용 항목이 없어 상위 RAG 개념에 broad 로 건다."
+
+  # crag: 논문 exactMatch
+  - internal: crag
+    target_kb: arxiv
+    external_id: "2401.15884"          # Corrective RAG 논문(예시 형식)
+    match_type: exact
+    confidence: 1.0
+    source: manual
+
+  # graphrag: Microsoft 논문·repo 둘 다. repo 는 exact, 논문도 exact(관점이 다름)
+  - internal: graphrag
+    target_kb: arxiv
+    external_id: "2404.16130"          # Microsoft 'From Local to Global' 논문
+    match_type: close
+    confidence: 0.8
+    source: manual
+    note: "GraphRAG 라는 우리 개념은 계열 총칭이라 특정 논문과는 close."
+  - internal: graphrag
+    target_kb: github
+    external_id: "microsoft/graphrag"
+    match_type: close
+    confidence: 0.7
+    source: manual
+
+  # rag: 개념 자체 → 위키데이터 exact
+  - internal: rag
+    target_kb: wikidata
+    external_id: "Q108048247"          # (예시) retrieval-augmented generation
+    match_type: exact
+    confidence: 0.9
+    source: manual
+
+  # popqa: 데이터셋 → 논문 exact
+  - internal: popqa
+    target_kb: arxiv
+    external_id: "2212.10511"          # (예시) PopQA 를 도입한 논문
+    match_type: exact
+    confidence: 0.9
+    source: manual
+
+  # meta-ai: 조직 → 위키데이터 exact
+  - internal: meta-ai
+    target_kb: wikidata
+    external_id: "Q94628726"           # (예시) Meta AI
+    match_type: exact
+    confidence: 0.85
+    source: manual
+
+  # hybrid-rag, accuracy 는 일부러 비워 둔다 → 커버리지 리포트에서 "미정렬"로 잡힌다.
