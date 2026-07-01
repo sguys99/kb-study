@@ -1,0 +1,41 @@
+# eval-gate.yml — PR 마다 평가를 돌려 회귀면 merge 를 막는 GitHub Actions 워크플로
+#
+# 실제로 쓰려면 이 파일을 저장소 루트의 .github/workflows/ 로 옮긴다.
+# (지금은 실습 폴더 안에 두어 함께 배포한다. 경로만 바꾸면 그대로 동작한다.)
+#
+# 동작:
+#   PR 이 열리거나 갱신될 때 → 파이썬 설치 → 의존 설치 → pytest 실행.
+#   test_regression_gate.py 안의 assert 가 회귀를 잡으면 pytest 가 실패하고,
+#   실패한 체크는 브랜치 보호 규칙(required check)과 묶여 merge 를 막는다.
+
+name: eval-gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  regression-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 의존 설치
+        working-directory: course/phase-06-evaluation-observability/04-ablation-ab-regression-gate/practice
+        run: pip install -r requirements.txt
+
+      # 회귀 게이트: pytest 실패 = 회귀 = 이 체크가 붉어짐 = merge 차단
+      - name: 회귀 게이트 (pytest)
+        working-directory: course/phase-06-evaluation-observability/04-ablation-ab-regression-gate/practice
+        run: pytest -v
+
+      # (참고) Ablation·A/B 표를 PR 로그에 남기고 싶으면 아래를 켠다.
+      - name: Ablation 표 출력 (로그용)
+        working-directory: course/phase-06-evaluation-observability/04-ablation-ab-regression-gate/practice
+        run: python ablation.py
