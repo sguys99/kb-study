@@ -1,0 +1,15 @@
+{
+  "_comment": "그래프 적재 직전의 노드들. 03 에서 canonical id 로 병합한 결과라고 가정한다. 통과 케이스와 위반 케이스를 섞었다. label 은 entity_types 카탈로그 표기, canonical_id 는 03 에서 발급한 urn:kb:concept:<slug>. 일부 노드는 canonical_id 를 일부러 비워 '표준 ID 누락 REJECT' 를 재현한다.",
+  "nodes": [
+    {"node_id": "self-rag",    "label": "Method",       "canonical_id": "urn:kb:concept:self-rag",   "concept_id": "self-rag"},
+    {"node_id": "crag",        "label": "Method",       "canonical_id": "urn:kb:concept:crag",       "concept_id": "crag"},
+    {"node_id": "graphrag",    "label": "Method",       "canonical_id": "urn:kb:concept:graphrag",   "concept_id": "graphrag"},
+    {"node_id": "popqa",       "label": "Dataset",      "canonical_id": "urn:kb:concept:popqa",      "concept_id": "popqa"},
+    {"node_id": "accuracy",    "label": "Metric",       "canonical_id": "urn:kb:concept:accuracy",   "concept_id": "accuracy"},
+    {"node_id": "paper-2310",  "label": "Paper",        "canonical_id": "urn:kb:concept:paper-2310", "concept_id": "paper-2310"},
+    {"node_id": "meta-ai",     "label": "Organization", "canonical_id": "urn:kb:concept:meta-ai",    "concept_id": "meta-ai"},
+
+    {"node_id": "no-canon",    "label": "Method",       "canonical_id": "",                          "concept_id": "no-canon"},
+    {"node_id": "bad-label",   "label": "Framework",    "canonical_id": "urn:kb:concept:bad-label",  "concept_id": "bad-label"}
+  ]
+}

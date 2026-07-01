@@ -1,0 +1,9 @@
+# 04-constraint-validation-shacl 실습 의존성
+# stdlib + 아래 둘이면 경량 제약 엔진이 전부 로컬에서 돈다. API 키·Neo4j 불필요.
+pydantic>=2.6
+PyYAML>=6.0
+
+# (선택) pyshacl 참고 예시(pyshacl_reference.py)를 실제로 돌릴 때만 설치.
+# RDF 변환이 필요하고 설치가 무겁다. 경량 엔진이 메인, 이건 "실무 확장" 참고용이다.
+# pyshacl>=0.26
+# rdflib>=7.0

@@ -1,0 +1,145 @@
+# vocabulary.yaml — 코퍼스(AI/LLM 기술 문서)용 정식 통제 어휘 레지스트리
+#
+# 이 파일이 이 토픽의 산출물이다. 01에서 파이썬 리터럴로 맛본 어휘를
+# 데이터 파일로 승격해, Entity Type 카탈로그 + Relation Type 카탈로그 +
+# 개념 레지스트리(concept_id/preferred_label/alt_labels/definition)를 한곳에 둔다.
+#
+# 왜 코드가 아니라 데이터 파일인가:
+#   - 어휘는 자주 바뀐다(코퍼스가 증분으로 자라며 새 표기가 계속 들어온다).
+#     데이터를 코드에서 분리해야 비개발자(도메인 전문가)도 리뷰·수정할 수 있다.
+#   - 03(canonical-id-alignment)이 이 concept_id 를 그대로 받아 외부 ID에 정렬한다.
+#
+# 규약:
+#   - concept_id / *_type 의 id 는 소문자-하이픈 슬러그(예: self-rag). 표기 흔들림을 애초에 막는다.
+#   - preferred_label 은 딱 하나. alt_labels 는 실제 코퍼스에서 관측된 표기 변형만.
+#   - Pydantic 로더(controlled_vocabulary.py)가 로드 시점에 이 규약을 강제한다.
+
+version: "2025.07"
+
+# ---------------------------------------------------------------------------
+# 1) Entity Type 카탈로그 — 노드에 붙을 수 있는 라벨의 폐쇄 집합(closed set)
+#    추출기가 뱉은 raw type 은 이 카탈로그 밖이면 REJECT 된다.
+# ---------------------------------------------------------------------------
+entity_types:
+  - id: concept
+    label: Concept
+    definition: "추상 개념·아이디어. 특정 구현이 아니라 범주(예: Retrieval-Augmented Generation 개념 자체)."
+    alt_labels: ["Idea", "Notion"]
+  - id: method
+    label: Method
+    definition: "구체적 기법·알고리즘·아키텍처(예: Self-RAG, CRAG). 논문이 제안하는 방법."
+    alt_labels: ["Technique", "Approach", "Algorithm", "Model", "Framework"]
+  - id: dataset
+    label: Dataset
+    definition: "평가·학습에 쓰이는 데이터셋(예: PopQA, TriviaQA)."
+    alt_labels: ["Benchmark", "Corpus", "Test Set"]
+  - id: metric
+    label: Metric
+    definition: "성능 측정 지표(예: Accuracy, F1, Recall@k)."
+    alt_labels: ["Measure", "Score", "Evaluation Metric"]
+  - id: paper
+    label: Paper
+    definition: "논문·기술 보고서 한 편(예: arXiv 2310.11511)."
+    alt_labels: ["Publication", "Article", "Preprint"]
+  - id: organization
+    label: Organization
+    definition: "저자 소속·연구 기관·기업(예: Meta AI, University of Washington)."
+    alt_labels: ["Org", "Institution", "Lab", "Company", "Affiliation"]
+
+# ---------------------------------------------------------------------------
+# 2) Relation Type 카탈로그 — 엣지 타입의 폐쇄 집합 + domain/range 힌트
+#    domain/range 는 여기서 "기록"만 한다. 본격 검증(위반 REJECT)은 5/04 SHACL.
+#    이 토픽에서는 "미등록 관계 타입 REJECT"까지가 관계 어휘의 몫이다.
+# ---------------------------------------------------------------------------
+relation_types:
+  - id: uses
+    label: USES
+    definition: "Method 가 Dataset 을 사용한다."
+    domain: Method
+    range: Dataset
+    alt_labels: ["USE", "USING", "USED", "utilizes", "employs"]
+  - id: evaluated-on
+    label: EVALUATED_ON
+    definition: "Method 가 특정 Dataset 에서 평가된다."
+    domain: Method
+    range: Dataset
+    alt_labels: ["EVALUATED", "eval on", "tested on", "benchmarked on"]
+  - id: compares
+    label: COMPARES
+    definition: "Method 가 다른 Method 와 비교된다."
+    domain: Method
+    range: Method
+    alt_labels: ["COMPARE", "compared with", "vs", "versus"]
+  - id: part-of
+    label: PART_OF
+    definition: "하위 개념이 상위 개념/기법의 일부다."
+    domain: Concept
+    range: Concept
+    alt_labels: ["PARTOF", "part of", "component of", "belongs to"]
+  - id: proposed-by
+    label: PROPOSED_BY
+    definition: "Method 가 특정 Paper 에서 제안된다."
+    domain: Method
+    range: Paper
+    alt_labels: ["PROPOSED", "introduced by", "presented in", "proposed in"]
+  - id: reports
+    label: REPORTS
+    definition: "Paper 가 특정 Metric 값을 보고한다."
+    domain: Paper
+    range: Metric
+    alt_labels: ["REPORT", "reports metric", "measures"]
+
+# ---------------------------------------------------------------------------
+# 3) 개념 레지스트리 — 실제 개체(concept)의 표준 표기·동의어·정의
+#    resolve() 가 자유 표기를 여기의 concept_id 로 접는다.
+#    각 concept 는 entity_type 카탈로그의 id 를 참조한다(entity_type 필드).
+# ---------------------------------------------------------------------------
+concepts:
+  - concept_id: self-rag
+    entity_type: method
+    preferred_label: Self-RAG
+    alt_labels: ["Self-Reflective RAG", "SELF-RAG", "self rag", "SelfRAG"]
+    definition: "검색·생성·비평을 스스로 반복하며 reflection token 으로 근거를 자기 평가하는 기법."
+  - concept_id: crag
+    entity_type: method
+    preferred_label: CRAG
+    alt_labels: ["Corrective RAG", "Corrective Retrieval-Augmented Generation", "corrective-rag"]
+    definition: "검색 품질을 평가해 부족하면 웹 검색·정제로 보정하는 기법."
+  - concept_id: graphrag
+    entity_type: method
+    preferred_label: GraphRAG
+    alt_labels: ["Graph RAG", "graph-rag", "그래프RAG"]
+    definition: "지식그래프를 검색 근거로 쓰는 RAG 계열의 총칭."
+  - concept_id: hybrid-rag
+    entity_type: method
+    preferred_label: Hybrid RAG
+    alt_labels: ["Hybrid Search RAG", "hybrid retrieval"]
+    definition: "벡터 검색과 키워드(BM25) 검색을 결합한 RAG 기준선."
+  - concept_id: rag
+    entity_type: concept
+    preferred_label: Retrieval-Augmented Generation
+    alt_labels: ["RAG", "retrieval augmented generation"]
+    definition: "외부 문서를 검색해 생성에 근거로 넣는 프레임워크 개념."
+  - concept_id: popqa
+    entity_type: dataset
+    preferred_label: PopQA
+    alt_labels: ["Pop QA", "pop-qa"]
+    definition: "롱테일 개체 지식을 묻는 오픈도메인 QA 벤치마크."
+  - concept_id: accuracy
+    entity_type: metric
+    preferred_label: Accuracy
+    alt_labels: ["acc", "정확도"]
+    definition: "정답 비율 지표."
+  - concept_id: meta-ai
+    entity_type: organization
+    preferred_label: Meta AI
+    alt_labels: ["Meta", "Facebook AI Research", "FAIR"]
+    definition: "Meta 의 AI 연구 조직."
+  # 아래는 04(constraint-validation)에서 Paper-REPORTS->Metric PASS 케이스를 만들기 위해
+  # 추가한 논문 개념이다. Paper 는 03 까지 concept 레지스트리에 없었으나,
+  # 그래프 적재 단계에서 논문 노드도 canonical id 를 갖는 개체로 등록된다.
+  - concept_id: paper-2310
+    entity_type: paper
+    preferred_label: "Self-RAG paper (arXiv 2310.11511)"
+    alt_labels: ["arxiv:2310.11511", "2310.11511"]
+    definition: "Self-RAG 를 제안한 arXiv 논문."

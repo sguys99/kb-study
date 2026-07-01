@@ -1,0 +1,15 @@
+{
+  "_comment": "그래프에 적재하려는 트리플들. 통과 케이스 + 위반 케이스를 섞었다. subject/object 는 nodes.json 의 node_id 를 가리킨다. rel 은 relation_types 카탈로그 표기. 각 트리플 옆 note 는 기대 결과(사람용 메모)로, 엔진은 note 를 보지 않는다.",
+  "triples": [
+    {"subject": "self-rag", "rel": "USES",        "object": "popqa",      "note": "PASS: Method-USES->Dataset (domain/range 정상)"},
+    {"subject": "self-rag", "rel": "EVALUATED_ON","object": "popqa",      "note": "PASS: Method-EVALUATED_ON->Dataset"},
+    {"subject": "self-rag", "rel": "COMPARES",    "object": "crag",       "note": "PASS: Method-COMPARES->Method"},
+    {"subject": "paper-2310","rel": "REPORTS",    "object": "accuracy",   "note": "PASS: Paper-REPORTS->Metric"},
+
+    {"subject": "popqa",    "rel": "USES",        "object": "self-rag",   "note": "REJECT domain/range: USES 는 Method->Dataset 인데 Dataset->Method 로 뒤집힘"},
+    {"subject": "paper-2310","rel": "REPORTS",    "object": "popqa",      "note": "REJECT range: REPORTS 의 range 는 Metric 인데 목적어가 Dataset"},
+    {"subject": "self-rag", "rel": "MENTIONS",    "object": "popqa",      "note": "REJECT unknown-relation: MENTIONS 는 카탈로그 밖 관계"},
+    {"subject": "self-rag", "rel": "USES",        "object": "no-canon",   "note": "REJECT canonical: 목적어 no-canon 은 canonical_id 누락(+object 타입도 Method 라 range 위반)"},
+    {"subject": "self-rag", "rel": "USES",        "object": "ghost",      "note": "REJECT dangling: object ghost 는 nodes.json 에 없는 참조"}
+  ]
+}

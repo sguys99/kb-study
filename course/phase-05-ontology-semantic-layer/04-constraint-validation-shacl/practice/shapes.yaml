@@ -1,0 +1,106 @@
+# shapes.yaml — 그래프 제약을 SHACL 스타일 Shape 로 선언한 파일
+#
+# 이 파일이 이 토픽의 산출물이다. 03 까지 만든 canonical id·통제 어휘 위에
+# "그래프가 지켜야 할 제약"을 데이터로 못박는다. 코드가 아니라 데이터 파일이라
+# 도메인 전문가도 규칙을 읽고 고칠 수 있다(어휘를 YAML 로 뺀 것과 같은 이유).
+#
+# SHACL 용어 대응(경량 엔진이 이 용어를 그대로 읽는다):
+#   - NodeShape          : 특정 타입 노드가 지켜야 할 제약 묶음.       (sh:NodeShape)
+#     - target_class     : 이 Shape 를 적용할 노드 라벨.               (sh:targetClass)
+#     - property         : 노드 속성 하나에 대한 PropertyShape 목록.   (sh:property)
+#       - path           : 검사할 속성 이름.                          (sh:path)
+#       - min_count      : 최소 개수(1 이면 필수).                     (sh:minCount)
+#       - max_count      : 최대 개수.                                 (sh:maxCount)
+#       - datatype       : 값의 파이썬 타입(str/int/float).           (sh:datatype)
+#       - pattern        : 값이 만족할 정규식(canonical URI 형식 등).  (sh:pattern)
+#       - in             : 허용값 폐쇄 집합(enum).                     (sh:in)
+#   - RelationShape      : 트리플(엣지)이 지켜야 할 제약. LPG 엣지용 확장.
+#     - target_relation  : 이 Shape 를 적용할 관계 타입.
+#     - subject_class    : 주어 노드가 가져야 할 라벨(domain 공리).    (sh:class on subject)
+#     - object_class     : 목적어 노드가 가져야 할 라벨(range 공리).   (sh:class on object)
+#     - object_min_count : 이 관계의 목적어가 몇 개 이상 있어야 하나(카디널리티).
+#
+# severity: violation(적재 거부) / warning(적재는 하되 리포트에 남김)  (sh:Violation / sh:Warning)
+
+version: "2025.07"
+
+# ---------------------------------------------------------------------------
+# NodeShape — 노드가 지켜야 할 제약
+# ---------------------------------------------------------------------------
+node_shapes:
+  # 모든 노드(라벨 무관)에 공통으로 거는 기본 Shape.
+  # target_class: "*" 는 "모든 라벨" 을 뜻한다(엔진이 특별 취급).
+  - id: NodeCommonShape
+    target_class: "*"
+    severity: violation
+    properties:
+      # canonical_id 는 필수다. 03 에서 발급한 urn:kb:concept:<slug> 형식이어야 한다.
+      - path: canonical_id
+        min_count: 1
+        datatype: str
+        pattern: "^urn:kb:concept:[a-z0-9-]+$"
+        message: "canonical_id 는 03 에서 발급한 urn:kb:concept:<slug> 형식이어야 한다"
+        suggested_fix: "canonical_id.py 로 concept_id 에 Canonical ID 를 발급해 채워라"
+      - path: label
+        min_count: 1
+        max_count: 1
+        datatype: str
+        # 허용 라벨의 폐쇄 집합. entity_types 카탈로그와 같은 값이어야 한다.
+        # (엔진은 in 이 있으면 vocabulary 카탈로그와 교차검증도 한다.)
+        in: ["Concept", "Method", "Dataset", "Metric", "Paper", "Organization"]
+        message: "label 은 entity_types 카탈로그의 폐쇄 집합 안에 있어야 한다"
+        suggested_fix: "Framework/Technique 같은 raw type 을 카탈로그 라벨(Method 등)로 매핑하라"
+
+# ---------------------------------------------------------------------------
+# RelationShape — 트리플(엣지)이 지켜야 할 제약 (domain/range + 카디널리티)
+#   domain = subject_class, range = object_class. 01 의 check_triple 공리를
+#   데이터로 옮기고, 카디널리티·미등록 관계까지 확장했다.
+# ---------------------------------------------------------------------------
+relation_shapes:
+  - id: UsesShape
+    target_relation: USES
+    subject_class: Method     # domain
+    object_class: Dataset     # range
+    severity: violation
+    message: "USES 는 (:Method)-[:USES]->(:Dataset) 여야 한다"
+    suggested_fix: "주어/목적어 타입을 확인하라. 방향이 뒤집혔으면 subject/object 를 바꿔라"
+
+  - id: EvaluatedOnShape
+    target_relation: EVALUATED_ON
+    subject_class: Method
+    object_class: Dataset
+    severity: violation
+    message: "EVALUATED_ON 은 (:Method)-[:EVALUATED_ON]->(:Dataset) 여야 한다"
+    suggested_fix: "평가 대상(Dataset)과 평가 주체(Method)를 확인하라"
+
+  - id: ComparesShape
+    target_relation: COMPARES
+    subject_class: Method
+    object_class: Method
+    severity: violation
+    message: "COMPARES 는 (:Method)-[:COMPARES]->(:Method) 여야 한다"
+    suggested_fix: "비교 양쪽이 모두 Method 인지 확인하라"
+
+  - id: ReportsShape
+    target_relation: REPORTS
+    subject_class: Paper
+    object_class: Metric
+    severity: violation
+    message: "REPORTS 는 (:Paper)-[:REPORTS]->(:Metric) 여야 한다"
+    suggested_fix: "보고 주체는 Paper, 보고 대상은 Metric 이어야 한다"
+
+# ---------------------------------------------------------------------------
+# 카디널리티 Shape — "특정 타입 노드는 특정 관계를 최소 N개 가져야 한다"
+#   SHACL 로는 NodeShape 의 property(sh:path 가 관계) + sh:minCount 로 표현한다.
+#   여기서는 별도 섹션으로 분리해 읽기 쉽게 뒀다.
+# ---------------------------------------------------------------------------
+cardinality_shapes:
+  # "모든 Method 노드는 최소 1개의 Dataset 에서 평가돼야 한다(EVALUATED_ON)."
+  # 위반은 warning 이다 — 데이터가 깨진 게 아니라 아직 덜 채워졌을 수 있다.
+  - id: MethodMustBeEvaluatedShape
+    target_class: Method
+    relation: EVALUATED_ON
+    min_count: 1
+    severity: warning
+    message: "Method 노드는 최소 1개 Dataset 에서 EVALUATED_ON 관계를 가져야 한다"
+    suggested_fix: "평가 데이터셋 관계를 추출했는지 확인하라. 없으면 추출 누락일 수 있다"
