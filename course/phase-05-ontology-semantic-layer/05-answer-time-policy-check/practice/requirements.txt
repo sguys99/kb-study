@@ -1,0 +1,4 @@
+# 05 answer-time policy check — 로컬 전용(API 키·Neo4j 불필요).
+# 04 산출물(controlled_vocabulary·rule_engine·reject_reason)과 같은 의존만 쓴다.
+pydantic>=2.6
+PyYAML>=6.0

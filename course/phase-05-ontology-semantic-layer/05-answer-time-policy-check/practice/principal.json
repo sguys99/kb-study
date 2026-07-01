@@ -1,0 +1,6 @@
+{
+  "_comment": "답변을 요청한 사용자(principal). Phase 1 Document Data Contract 의 acl 과 대조된다.",
+  "user_id": "u-427",
+  "role": "analyst",
+  "tenant": "team-a"
+}

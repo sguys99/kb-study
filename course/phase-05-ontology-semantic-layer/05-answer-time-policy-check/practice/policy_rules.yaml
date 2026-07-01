@@ -1,0 +1,69 @@
+# policy_rules.yaml — 답변 시점(answer-time) 조직 정책을 데이터로 선언한 파일
+#
+# 이 파일이 05 의 산출물 중 하나다. 04 의 shapes.yaml 이 "그래프가 지켜야 할 모양"을
+# 데이터로 뺐듯, 여기서는 "답변에 무엇을 인용해도 되는가"를 데이터로 뺀다.
+# 코드가 아니라 데이터라서, 보안·거버넌스 담당(비개발자)도 규칙을 읽고 고칠 수 있다.
+#
+# 세 게이트 중 policy_gate 가 이 파일을 읽는다.
+#   (semantic_gate 는 vocabulary.yaml + shapes.yaml 을, access_gate 는 principal 을 본다.)
+#
+# 각 규칙은 위반 시 decision=deny(배제) 또는 decision=mask(마스킹) 를 낸다.
+
+version: "2025.07"
+
+# ---------------------------------------------------------------------------
+# 1) require_provenance — 출처 없는 주장은 답변에서 배제한다.
+#    트리플/문서에 provenance(어느 문서·span 에서 왔는지)가 비어 있으면 deny.
+#    "그래프가 그렇다더라"만으로는 답하지 않는다(환각·근거 없는 단정 차단).
+# ---------------------------------------------------------------------------
+require_provenance:
+  enabled: true
+  decision: deny
+  reason: "PROVENANCE_MISSING: 출처(provenance)가 없는 항목은 답변에 인용하지 않는다"
+
+# ---------------------------------------------------------------------------
+# 2) deny_deprecated — 폐기(deprecated) 개념을 참조하는 항목은 배제한다.
+#    vocabulary 의 status=deprecated 를 semantic_gate 가 표시하고,
+#    policy 는 그 표시가 붙은 항목을 최종 배제한다.
+# ---------------------------------------------------------------------------
+deny_deprecated:
+  enabled: true
+  decision: deny
+  reason: "DEPRECATED_CONCEPT: 폐기된 개념을 참조하는 항목은 답변에서 배제한다"
+
+# ---------------------------------------------------------------------------
+# 3) min_confidence — 추출 confidence 가 임계값 미만이면 배제한다.
+#    저품질 추출이 답변 근거로 새는 것을 막는다.
+# ---------------------------------------------------------------------------
+min_confidence:
+  enabled: true
+  threshold: 0.60
+  decision: deny
+  reason: "LOW_CONFIDENCE: confidence 가 임계값 미만인 항목은 배제한다"
+
+# ---------------------------------------------------------------------------
+# 4) mask_fields — 민감 필드는 지우지 말고 마스킹(치환)해 노출을 막는다.
+#    항목 자체는 답변에 쓰되, 지정한 필드만 "***" 로 가린다.
+#    예: 내부 벤치마크 원점수(raw_score), 저자 이메일(author_email).
+# ---------------------------------------------------------------------------
+mask_fields:
+  enabled: true
+  decision: mask
+  fields: ["raw_score", "author_email"]
+  mask_token: "***"
+  reason: "SENSITIVE_FIELD: 민감 필드는 마스킹 후 인용한다"
+
+# ---------------------------------------------------------------------------
+# 5) acl 매칭 규칙 — access_gate 가 쓰는 접근 통제 규칙.
+#    문서/노드의 acl 리스트와 principal(role/tenant)을 대조한다.
+#    - visibility=public   : 모두 허용.
+#    - visibility=internal : acl.roles 에 principal.role 이 있어야 허용.
+#    - tenant 격리         : acl.tenants 가 지정돼 있으면 principal.tenant 도 일치해야 한다.
+#    Phase 1 Document Data Contract 의 acl/provenance 설계를 답변 시점에 집행한다.
+# ---------------------------------------------------------------------------
+acl:
+  enabled: true
+  decision: deny
+  public_marker: public          # acl.visibility 가 이 값이면 role 검사 생략
+  reason_role: "ACL_ROLE_DENIED: principal.role 이 문서 acl.roles 에 없다"
+  reason_tenant: "ACL_TENANT_DENIED: principal.tenant 가 문서 acl.tenants 와 다르다"

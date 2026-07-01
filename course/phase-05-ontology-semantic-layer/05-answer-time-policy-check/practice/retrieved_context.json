@@ -1,0 +1,111 @@
+{
+  "_comment": [
+    "Phase 4 GraphRAG/LightRAG 검색이 답변 직전 끌어온 컨텍스트라고 가정한다.",
+    "각 item 은 답변 시점 게이트가 읽는 메타를 함께 들고 있다:",
+    "  acl        : Phase 1 Document Data Contract 의 접근 통제(visibility/roles/tenants).",
+    "  provenance : 어느 문서·span 에서 왔나(없으면 policy_gate 가 배제).",
+    "  concept_ids: 이 항목이 참조하는 개념(semantic_gate 가 vocabulary status 대조).",
+    "  confidence : 추출 신뢰도(min_confidence 미만이면 배제).",
+    "  fields     : 문서형 항목의 필드(민감 필드는 마스킹 대상).",
+    "kind=triple 은 rule_engine(04)로 domain/range 재검증까지 받는다.",
+    "principal={role: analyst, tenant: team-a} 기준으로 통과/차단이 섞여 있다."
+  ],
+
+  "nodes": [
+    {"node_id": "self-rag",  "label": "Method",  "canonical_id": "urn:kb:concept:self-rag"},
+    {"node_id": "crag",      "label": "Method",  "canonical_id": "urn:kb:concept:crag"},
+    {"node_id": "popqa",     "label": "Dataset", "canonical_id": "urn:kb:concept:popqa"},
+    {"node_id": "naive-rag", "label": "Method",  "canonical_id": "urn:kb:concept:naive-rag"},
+    {"node_id": "paper-2310","label": "Paper",   "canonical_id": "urn:kb:concept:paper-2310"},
+    {"node_id": "accuracy",  "label": "Metric",  "canonical_id": "urn:kb:concept:accuracy"}
+  ],
+
+  "items": [
+    {
+      "item_id": "ctx-01",
+      "kind": "triple",
+      "subject": "self-rag", "rel": "USES", "object": "popqa",
+      "text": "Self-RAG 는 PopQA 로 평가된다.",
+      "concept_ids": ["self-rag", "popqa"],
+      "acl": {"visibility": "public"},
+      "provenance": {"doc_id": "arxiv-2310.11511", "span": [1201, 1260]},
+      "confidence": 0.93,
+      "_expect": "ALLOW — public·provenance 있음·active 개념·domain/range 정상"
+    },
+    {
+      "item_id": "ctx-02",
+      "kind": "doc",
+      "text": "CRAG 는 검색 품질이 낮으면 웹 검색으로 보정한다.",
+      "concept_ids": ["crag"],
+      "acl": {"visibility": "internal", "roles": ["admin"], "tenants": ["team-a"]},
+      "provenance": {"doc_id": "internal-rag-review", "span": [40, 92]},
+      "confidence": 0.88,
+      "_expect": "DENY(access) — internal 이고 roles=[admin] 인데 principal.role=analyst"
+    },
+    {
+      "item_id": "ctx-03",
+      "kind": "triple",
+      "subject": "naive-rag", "rel": "USES", "object": "popqa",
+      "text": "Naive RAG 는 PopQA 로 평가된다.",
+      "concept_ids": ["naive-rag", "popqa"],
+      "acl": {"visibility": "public"},
+      "provenance": {"doc_id": "old-survey-2021", "span": [10, 60]},
+      "confidence": 0.90,
+      "_expect": "DENY(policy) — naive-rag 가 vocabulary status=deprecated"
+    },
+    {
+      "item_id": "ctx-04",
+      "kind": "triple",
+      "subject": "self-rag", "rel": "COMPARES", "object": "crag",
+      "text": "Self-RAG 가 CRAG 보다 정확하다(출처 미상).",
+      "concept_ids": ["self-rag", "crag"],
+      "acl": {"visibility": "public"},
+      "provenance": null,
+      "confidence": 0.71,
+      "_expect": "DENY(policy) — provenance 없음(require_provenance)"
+    },
+    {
+      "item_id": "ctx-05",
+      "kind": "triple",
+      "subject": "crag", "rel": "USES", "object": "popqa",
+      "text": "CRAG 도 PopQA 로 평가된다(저신뢰 추출).",
+      "concept_ids": ["crag", "popqa"],
+      "acl": {"visibility": "public"},
+      "provenance": {"doc_id": "auto-extract-batch7", "span": [500, 540]},
+      "confidence": 0.42,
+      "_expect": "DENY(policy) — confidence 0.42 < 0.60(min_confidence)"
+    },
+    {
+      "item_id": "ctx-06",
+      "kind": "triple",
+      "subject": "popqa", "rel": "USES", "object": "self-rag",
+      "text": "PopQA 가 Self-RAG 를 쓴다(방향 뒤집힘).",
+      "concept_ids": ["popqa", "self-rag"],
+      "acl": {"visibility": "public"},
+      "provenance": {"doc_id": "arxiv-2310.11511", "span": [1300, 1340]},
+      "confidence": 0.80,
+      "_expect": "DENY(semantic) — USES 는 (:Method)->(:Dataset). 주어가 Dataset 이라 domain/range 위반"
+    },
+    {
+      "item_id": "ctx-07",
+      "kind": "doc",
+      "text": "Self-RAG 는 PopQA 에서 높은 정확도를 보고했다.",
+      "concept_ids": ["self-rag", "popqa", "accuracy"],
+      "acl": {"visibility": "public"},
+      "provenance": {"doc_id": "arxiv-2310.11511", "span": [1400, 1470]},
+      "confidence": 0.91,
+      "fields": {"raw_score": 0.842, "author_email": "author@example.org"},
+      "_expect": "ALLOW + MASK — 통과하되 raw_score·author_email 은 *** 로 마스킹"
+    },
+    {
+      "item_id": "ctx-08",
+      "kind": "doc",
+      "text": "team-b 전용 벤치마크 노트.",
+      "concept_ids": ["self-rag"],
+      "acl": {"visibility": "internal", "roles": ["analyst"], "tenants": ["team-b"]},
+      "provenance": {"doc_id": "team-b-notes", "span": [0, 30]},
+      "confidence": 0.85,
+      "_expect": "DENY(access) — role 은 맞지만 tenant=team-b 라 principal.tenant=team-a 와 불일치"
+    }
+  ]
+}

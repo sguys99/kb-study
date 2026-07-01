@@ -1,0 +1,135 @@
+# vocabulary.yaml — 05(answer-time) 판. 04 어휘를 그대로 이어받되, 답변 시점
+# semantic 게이트가 배제할 "deprecated 개념" 하나를 추가했다.
+#
+# 04 대비 유일한 차이:
+#   - ConceptEntry 에 status 필드(active/deprecated)가 붙는다(controlled_vocabulary.py).
+#   - naive-rag 개념을 status: deprecated 로 등록한다 — 어휘엔 남기되(과거 문서가 참조),
+#     답변 시점엔 인용을 막기 위한 예시다.
+#
+# 규약(04와 동일):
+#   - concept_id / *_type 의 id 는 소문자-하이픈 슬러그.
+#   - preferred_label 은 하나. alt_labels 는 실제 코퍼스 관측 변형만.
+#   - Pydantic 로더(controlled_vocabulary.py)가 로드 시점에 규약을 강제한다.
+
+version: "2025.07"
+
+entity_types:
+  - id: concept
+    label: Concept
+    definition: "추상 개념·아이디어. 특정 구현이 아니라 범주."
+    alt_labels: ["Idea", "Notion"]
+  - id: method
+    label: Method
+    definition: "구체적 기법·알고리즘·아키텍처(예: Self-RAG, CRAG)."
+    alt_labels: ["Technique", "Approach", "Algorithm", "Model", "Framework"]
+  - id: dataset
+    label: Dataset
+    definition: "평가·학습에 쓰이는 데이터셋(예: PopQA, TriviaQA)."
+    alt_labels: ["Benchmark", "Corpus", "Test Set"]
+  - id: metric
+    label: Metric
+    definition: "성능 측정 지표(예: Accuracy, F1)."
+    alt_labels: ["Measure", "Score", "Evaluation Metric"]
+  - id: paper
+    label: Paper
+    definition: "논문·기술 보고서 한 편."
+    alt_labels: ["Publication", "Article", "Preprint"]
+  - id: organization
+    label: Organization
+    definition: "저자 소속·연구 기관·기업."
+    alt_labels: ["Org", "Institution", "Lab", "Company", "Affiliation"]
+
+relation_types:
+  - id: uses
+    label: USES
+    definition: "Method 가 Dataset 을 사용한다."
+    domain: Method
+    range: Dataset
+    alt_labels: ["USE", "USING", "USED", "utilizes", "employs"]
+  - id: evaluated-on
+    label: EVALUATED_ON
+    definition: "Method 가 특정 Dataset 에서 평가된다."
+    domain: Method
+    range: Dataset
+    alt_labels: ["EVALUATED", "eval on", "tested on", "benchmarked on"]
+  - id: compares
+    label: COMPARES
+    definition: "Method 가 다른 Method 와 비교된다."
+    domain: Method
+    range: Method
+    alt_labels: ["COMPARE", "compared with", "vs", "versus"]
+  - id: part-of
+    label: PART_OF
+    definition: "하위 개념이 상위 개념/기법의 일부다."
+    domain: Concept
+    range: Concept
+    alt_labels: ["PARTOF", "part of", "component of", "belongs to"]
+  - id: proposed-by
+    label: PROPOSED_BY
+    definition: "Method 가 특정 Paper 에서 제안된다."
+    domain: Method
+    range: Paper
+    alt_labels: ["PROPOSED", "introduced by", "presented in", "proposed in"]
+  - id: reports
+    label: REPORTS
+    definition: "Paper 가 특정 Metric 값을 보고한다."
+    domain: Paper
+    range: Metric
+    alt_labels: ["REPORT", "reports metric", "measures"]
+
+concepts:
+  - concept_id: self-rag
+    entity_type: method
+    preferred_label: Self-RAG
+    alt_labels: ["Self-Reflective RAG", "SELF-RAG", "self rag", "SelfRAG"]
+    definition: "검색·생성·비평을 반복하며 reflection token 으로 근거를 자기 평가하는 기법."
+  - concept_id: crag
+    entity_type: method
+    preferred_label: CRAG
+    alt_labels: ["Corrective RAG", "Corrective Retrieval-Augmented Generation", "corrective-rag"]
+    definition: "검색 품질을 평가해 부족하면 웹 검색·정제로 보정하는 기법."
+  - concept_id: graphrag
+    entity_type: method
+    preferred_label: GraphRAG
+    alt_labels: ["Graph RAG", "graph-rag", "그래프RAG"]
+    definition: "지식그래프를 검색 근거로 쓰는 RAG 계열의 총칭."
+  - concept_id: hybrid-rag
+    entity_type: method
+    preferred_label: Hybrid RAG
+    alt_labels: ["Hybrid Search RAG", "hybrid retrieval"]
+    definition: "벡터 검색과 키워드(BM25) 검색을 결합한 RAG 기준선."
+  - concept_id: rag
+    entity_type: concept
+    preferred_label: Retrieval-Augmented Generation
+    alt_labels: ["RAG", "retrieval augmented generation"]
+    definition: "외부 문서를 검색해 생성에 근거로 넣는 프레임워크 개념."
+  - concept_id: popqa
+    entity_type: dataset
+    preferred_label: PopQA
+    alt_labels: ["Pop QA", "pop-qa"]
+    definition: "롱테일 개체 지식을 묻는 오픈도메인 QA 벤치마크."
+  - concept_id: accuracy
+    entity_type: metric
+    preferred_label: Accuracy
+    alt_labels: ["acc", "정확도"]
+    definition: "정답 비율 지표."
+  - concept_id: meta-ai
+    entity_type: organization
+    preferred_label: Meta AI
+    alt_labels: ["Meta", "Facebook AI Research", "FAIR"]
+    definition: "Meta 의 AI 연구 조직."
+  - concept_id: paper-2310
+    entity_type: paper
+    preferred_label: "Self-RAG paper (arXiv 2310.11511)"
+    alt_labels: ["arxiv:2310.11511", "2310.11511"]
+    definition: "Self-RAG 를 제안한 arXiv 논문."
+
+  # ---- 05 에서 추가한 deprecated 개념 -------------------------------------
+  # 과거 문서·트리플이 이 개념을 참조할 수 있어 어휘에서 지우지 않는다.
+  # 대신 status: deprecated 로 표시해 답변 시점 semantic 게이트가 인용을 막는다.
+  - concept_id: naive-rag
+    entity_type: method
+    preferred_label: Naive RAG
+    alt_labels: ["naive rag", "vanilla RAG", "basic RAG"]
+    definition: "단순 top-k 검색 후 생성하는 초기 RAG. 지금은 기준선에서 밀려 폐기(deprecated)."
+    status: deprecated
