@@ -1,0 +1,73 @@
+# ontology.yaml — Phase 7 하니스 그래프의 허용 온톨로지(Controlled Vocabulary 축약본)
+#
+# 이 파일이 ontology_check 도구의 기준(=진실 원천)이다.
+# Phase 5(5/02 controlled-vocabulary, 5/04 constraint-validation-shacl)의 어휘·제약을
+# Phase 7 하니스 그래프(02 graph_backend.py 의 mock KG)에 맞춰 축약해 옮겼다.
+#
+# 왜 Phase 5 vocabulary.yaml 을 그대로 안 쓰나:
+#   - Phase 5 어휘는 코퍼스 전체 KG(Method/Dataset/Metric/Paper/Organization 등)를 다룬다.
+#   - Phase 7 하니스 mock KG 는 기법·구성요소 관계만 축약해 담았다(02 graph_backend.py).
+#     라벨·관계 집합이 다르다. 그래서 하니스 그래프에 실제 존재하는 스키마만 여기 옮긴다.
+#   - 실전에서는 Phase 5 산출물(vocabulary.yaml + shapes.yaml)을 그대로 로드하면 된다.
+#     ontology_check.py 는 이 YAML 을 로드하는 방식이 같으므로 파일만 바꿔 끼우면 된다.
+#
+# 규약(Phase 5 와 동일):
+#   - id 는 소문자-하이픈 슬러그. label 은 Neo4j 표기(Method, USES).
+#   - alt_labels 는 실제 관측된 표기 변형만. ontology_check 가 자유 표기를 이 label 로 접는다.
+#   - relations 의 domain/range/방향은 "허용된 (출발라벨)-[관계]->(도착라벨)" 삼중항이다.
+#     방향까지 검사한다: (:Component)-[:USES]->(:Method) 는 방향 위반이다.
+
+version: "2025.07"
+
+# 허용 노드 라벨의 폐쇄 집합(closed set). 여기 없는 라벨은 위반.
+labels:
+  - id: method
+    label: Method
+    definition: "구체적 기법·알고리즘(예: Self-RAG, CRAG)."
+    alt_labels: ["Technique", "Approach", "Algorithm"]
+  - id: concept
+    label: Concept
+    definition: "추상 개념·범주(예: Agentic RAG, GraphRAG, Tool Use)."
+    alt_labels: ["Idea", "Notion"]
+  - id: component
+    label: Component
+    definition: "기법을 구성하는 부품(예: Reflection Token, Query Router)."
+    alt_labels: ["Module", "Part"]
+  - id: framework
+    label: Framework
+    definition: "구현 프레임워크(예: LightRAG)."
+    alt_labels: ["Library", "System"]
+
+# 허용 관계 타입의 폐쇄 집합 + 방향(domain -[label]-> range).
+# ontology_check 가 관계 타입 존재 여부와 방향(domain/range 라벨)을 함께 본다.
+relations:
+  - id: uses
+    label: USES
+    definition: "Method 가 Component 를 사용한다."
+    domain: Method
+    range: Component
+    alt_labels: ["USE", "USING", "utilizes", "employs"]
+  - id: is-a
+    label: IS_A
+    definition: "Method 가 상위 Concept 의 일종이다."
+    domain: Method
+    range: Concept
+    alt_labels: ["ISA", "is a", "subtype of", "kind of"]
+  - id: built-on
+    label: BUILT_ON
+    definition: "Concept 가 다른 Concept 위에 세워진다."
+    domain: Concept
+    range: Concept
+    alt_labels: ["BUILTON", "built on", "based on"]
+  - id: implements
+    label: IMPLEMENTS
+    definition: "Framework 가 Concept 를 구현한다."
+    domain: Framework
+    range: Concept
+    alt_labels: ["IMPLEMENT", "implements", "realizes"]
+  - id: extends
+    label: EXTENDS
+    definition: "Concept 가 다른 Concept 를 확장한다."
+    domain: Concept
+    range: Concept
+    alt_labels: ["EXTEND", "extends", "generalizes"]

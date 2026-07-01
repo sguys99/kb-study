@@ -1,0 +1,19 @@
+# Phase 7 / 03 cypher-safety-ontology-check 의존성
+#
+# 핵심(Safety Guard·mock 그래프)은 표준 라이브러리(re)만으로 돈다. 아래는 선택 의존이다.
+#
+# ontology.py / ontology_check.py: Pydantic v2 + PyYAML 필요.
+pydantic>=2.6
+PyYAML>=6.0
+#
+# text2cypher 의 실제 LLM 생성 경로(선택). 없으면 02 의 규칙 기반 mock 생성기로 폴백.
+#   pip 로 설치하고 ANTHROPIC_API_KEY 를 환경변수로 준다.
+anthropic>=0.40
+#
+# Neo4j 실전 백엔드(선택). 없으면 mock in-memory 그래프로 폴백.
+#   Neo4j 5.26 LTS(또는 2025+ CalVer). NEO4J_URI/NEO4J_USER/NEO4J_PASSWORD 필요.
+neo4j>=5.26
+#
+# (선택) SHACL 기반 그래프 제약 검증을 실제로 돌리고 싶을 때. 없으면 Pydantic 룰(ontology.py)로 폴백.
+#   이 토픽의 ontology_check 는 pyshacl 없이도 완전히 동작한다. Phase 5/04 와 이으려는 학습자만 설치.
+# pyshacl>=0.26
