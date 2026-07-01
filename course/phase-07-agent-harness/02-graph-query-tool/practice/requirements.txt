@@ -1,0 +1,13 @@
+# graph_query 도구 실습 의존성.
+# 기본(mock) 경로는 표준 라이브러리만으로 돈다 — 아무것도 설치하지 않아도 된다.
+# 아래는 '실전 경로'를 켤 때만 필요하다.
+
+# Claude tool-use 루프 + text2cypher 생성(ANTHROPIC_API_KEY 필요).
+anthropic>=0.40.0
+
+# Neo4j 읽기 전용 실행(NEO4J_URI/USER/PASSWORD 필요). Neo4j 5.26 LTS 또는 2025+ CalVer.
+neo4j>=5.26.0
+
+# LightRAG 백엔드는 Phase 4 practice 의 인스턴스를 재사용한다.
+# 여기서 새로 설치하지 않는다 — Phase 4/06 의 requirements 를 따른다.
+# lightrag-hku   # (Phase 4 에서 이미 설치했다면 불필요)
