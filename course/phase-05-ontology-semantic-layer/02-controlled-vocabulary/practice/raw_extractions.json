@@ -1,0 +1,31 @@
+{
+  "_comment": "추출기(Phase 2 LLM extractor)가 뱉었다고 가정한 raw 출력 샘플. type/label 이 제각각이다. normalize_extraction.py 가 이걸 통제 어휘에 매핑하거나 REJECT 한다.",
+  "entities": [
+    {"raw_type": "Method",    "raw_label": "Self-RAG"},
+    {"raw_type": "Technique", "raw_label": "Self-Reflective RAG"},
+    {"raw_type": "Model",     "raw_label": "SELF-RAG"},
+    {"raw_type": "Approach",  "raw_label": "Corrective RAG"},
+    {"raw_type": "Method",    "raw_label": "그래프RAG"},
+    {"raw_type": "Benchmark", "raw_label": "PopQA"},
+    {"raw_type": "Dataset",   "raw_label": "pop-qa"},
+    {"raw_type": "Metric",    "raw_label": "정확도"},
+    {"raw_type": "Org",       "raw_label": "Meta AI"},
+    {"raw_type": "Company",   "raw_label": "FAIR"},
+    {"raw_type": "Method",    "raw_label": "FancyRAG"},
+    {"raw_type": "Person",    "raw_label": "Akari Asai"},
+    {"raw_type": "Concept",   "raw_label": "RAG"}
+  ],
+  "relations": [
+    {"raw_type": "USES"},
+    {"raw_type": "USE"},
+    {"raw_type": "using"},
+    {"raw_type": "EVALUATED_ON"},
+    {"raw_type": "eval on"},
+    {"raw_type": "COMPARES"},
+    {"raw_type": "PROPOSED_BY"},
+    {"raw_type": "introduced by"},
+    {"raw_type": "REPORTS"},
+    {"raw_type": "MENTIONS"},
+    {"raw_type": "CITES"}
+  ]
+}

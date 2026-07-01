@@ -1,0 +1,7 @@
+# 5.2 Controlled Vocabulary 설계 — 의존성
+#
+# 이 토픽도 개념형이다. LLM·임베딩·Neo4j 없이 로컬에서 전부 돈다.
+# 어휘를 데이터 파일(vocabulary.yaml)로 분리했으므로 YAML 파서가 추가된다.
+
+pydantic>=2.6
+PyYAML>=6.0
