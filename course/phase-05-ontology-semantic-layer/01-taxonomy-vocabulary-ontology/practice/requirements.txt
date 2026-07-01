@@ -1,0 +1,10 @@
+# 5.1 Taxonomy·Vocabulary·Ontology — 의존성
+#
+# 이 토픽은 개념형이다. LLM·임베딩·Neo4j 없이 로컬에서 전부 돈다.
+# 필수는 Pydantic v2 하나뿐. rdflib 는 SKOS/RDFS 표준 표현을 보고 싶을 때만.
+
+pydantic>=2.6
+
+# (선택) rdflib — SKOS(taxonomy)·RDFS(ontology) 를 표준 트리플로 보고 싶을 때만 주석 해제.
+# 없어도 taxonomy.py / ontology.py 는 순수 파이썬 경로로 그대로 동작한다.
+# rdflib>=7.0

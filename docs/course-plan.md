@@ -239,10 +239,10 @@
 > 그래프가 커질 때 허용 타입·관계·용어를 통제하는 의미 계층 — Controlled Vocabulary · Canonical ID · SHACL.
 
 - [ ] **01-taxonomy-vocabulary-ontology** — Taxonomy·Vocabulary·Ontology vs Graph Schema
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-controlled-vocabulary** — Entity·Relation Type + Controlled Vocabulary 설계
   - [ ] lesson.md 초안 (kb-agent)
