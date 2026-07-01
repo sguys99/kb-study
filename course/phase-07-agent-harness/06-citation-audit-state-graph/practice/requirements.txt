@@ -1,0 +1,22 @@
+# 06-citation-audit-state-graph — 01~05 를 통합하는 Reference Harness.
+#
+# 이 토픽의 통합 계층(schema·citation·audit·state_graph)은 Pydantic 만 있으면 돈다.
+# state_graph 는 05 practice(guarded_loop 등)를 재사용하므로, 05 가 쓰던 것도 필요하다.
+# FastAPI /chat 를 실제로 기동하려면 fastapi·uvicorn 을 추가로 깐다.
+#
+# 설치(05 와 같은 가상환경을 재사용하면 pydantic·anthropic·PyYAML 은 이미 있다):
+#   python -m venv .venv && source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# 05·04·03 에서 이미 쓰던 것:
+#   - pydantic  : 이 토픽의 Structured Output 스키마(schema.py) + 03 ontology_check.
+#   - anthropic : LLM 경로(router/grader/rewrite/최종답). 키 없으면 mock.
+#   - PyYAML    : 03 ontology.yaml 로더.
+# 이 토픽에서 새로 추가:
+#   - fastapi   : /chat 엔드포인트.
+#   - uvicorn   : ASGI 서버(개발용).
+pydantic>=2.7
+anthropic>=0.40
+PyYAML>=6.0
+fastapi>=0.110
+uvicorn>=0.29
