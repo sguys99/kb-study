@@ -307,10 +307,10 @@
 > 검색을 호출하는 주체를 에이전트로 — Tool Contract · Router · Grader · Audit Trail. 결과물은 캡스톤 3개가 공유하는 도메인 중립 Reference Harness.
 
 - [ ] **01-agent-harness-minimal** — Workflow vs Agent, 최소 구조 + Tool Contract + docs_search
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-graph-query-tool** — Template Cypher · Text-to-Cypher · LightRAG 도구화
   - [ ] lesson.md 초안 (kb-agent)

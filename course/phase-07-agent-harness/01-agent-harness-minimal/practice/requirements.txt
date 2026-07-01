@@ -1,0 +1,10 @@
+# Phase 7/01 agent-harness-minimal
+#
+# 기본(폴백) 경로는 표준 라이브러리만으로 동작한다 — 아래 패키지 없이도
+# python agent_loop.py "질문" 이 mock 백엔드로 돈다.
+#
+# Claude tool-use 실전 경로를 쓰려면 anthropic 을 설치하고 ANTHROPIC_API_KEY 를 설정한다.
+anthropic>=0.40.0
+
+# Phase 1/06 HybridSearcher 를 실제로 붙이려면 그쪽 requirements 도 함께 설치한다
+# (docs_search.py 가 자동 감지한다). 없으면 이 토픽은 mock BM25 로 동작한다.
