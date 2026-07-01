@@ -1,0 +1,19 @@
+# Phase 6 / 02 golden-testset-ragas 의존성
+#
+# Ragas 는 0.2+ 신형 API(EvaluationDataset / TestsetGenerator)를 가정한다.
+# 버전 핀을 강하게 걸지 않는다(작성 시점 최신 stable). 0.1 구식 API는 쓰지 않는다.
+#
+# 비용/키 없이 구조만 볼 거면 아래 상용 SDK 없이도 mock 경로가 돈다.
+# graph_metrics.py 와 golden set 검증은 표준 라이브러리만으로 실행된다.
+
+ragas>=0.2                 # 평가·테스트셋 생성 (신형 EvaluationDataset API)
+langchain-core>=0.3        # LangchainLLMWrapper / LangchainEmbeddingsWrapper 가 참조
+langchain-anthropic>=0.2   # Claude 를 Ragas LLM 으로 감쌀 때
+langchain-community>=0.3   # 코퍼스 로딩(선택)
+
+# 임베딩 — 기본은 VoyageAI. 비용 최소화 시 아래 두 줄 대신 Ollama+bge-m3 사용.
+langchain-voyageai>=0.1    # voyage-3.5 임베딩
+
+# 비용 최소화 분기(선택): 로컬 LLM/임베딩
+# ollama 데몬을 별도로 띄우고 아래를 설치한다.
+# langchain-ollama>=0.2    # Ollama LLM/embedding 래퍼 (bge-m3 로컬)
