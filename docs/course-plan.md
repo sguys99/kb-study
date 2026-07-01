@@ -276,10 +276,10 @@
 > "좋아진 것 같다"는 금물 — Ragas Golden Testset · Langfuse Trace · Regression Gate로 개선을 숫자로 입증.
 
 - [ ] **01-evaluation-pyramid** — Construction·Retrieval·Generation·Agent 평가 계층
-  - [ ] lesson.md 초안 (kb-agent)
-  - [ ] practice/
-  - [ ] labs/
-  - [ ] 윤문 (/humanize-korean)
+  - [x] lesson.md 초안 (kb-agent)
+  - [x] practice/
+  - [x] labs/
+  - [x] 윤문 (/humanize-korean)
   - [ ] 실행검증 _(학습자)_
 - [ ] **02-golden-testset-ragas** — Golden Testset + Ragas + Graph-specific Metrics
   - [ ] lesson.md 초안 (kb-agent)
